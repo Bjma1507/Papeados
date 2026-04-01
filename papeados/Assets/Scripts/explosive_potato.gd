@@ -42,6 +42,7 @@ func _process(_delta: float) -> void:
 	countdown_sound()
 
 func countdown_sound() -> void:
+
 	if has_exploded:
 		return
 
@@ -49,11 +50,14 @@ func countdown_sound() -> void:
 
 	if time_remaining <= warning_threshold:
 		if int(time_remaining) % 2 != 0:
-			if not audio.playing or audio.stream != warning_sound_a:
-				_play_warning_sound()
+			if audio.stream != warning_sound_a:
+				audio.stream = warning_sound_a
+				audio.play()
 		else:
-			if not audio.playing or audio.stream != warning_sound_b:
-				_play_warning_sound_b()
+			if audio.stream != warning_sound_b:
+				audio.stream = warning_sound_b
+				audio.play()
+
 
 func _setup_timers() -> void:
 	timer.wait_time = explosion_timer
@@ -75,7 +79,8 @@ func attach_to_player(player: Player) -> void:
 	attached_player = player
 	global_position = player.global_position + attach_offset
 	
-	_play_attach_sound()
+	audio.stream = attach_sound
+	audio.play()
 	
 	player.set_can_transfer_potato(false)
 	
@@ -103,7 +108,8 @@ func _toggle_visibility() -> void:
 func _explode() -> void:
 	has_exploded = true
 
-	_play_explosion_sound()
+	audio.stream = explosion_sound
+	audio.play()
 	
 	var players_in_range := _get_players_in_radius()
 	
@@ -123,7 +129,7 @@ func _get_players_in_radius() -> Array[Player]:
 	if not game_manager:
 		return result
 	
-	for player in game_manager.players:
+	for player in game_manager.players.values():
 		if is_instance_valid(player):
 			var distance := global_position.distance_to(player.global_position)
 			if distance <= explosion_radius:
@@ -139,8 +145,8 @@ func _apply_knockback(player: Player) -> void:
 	
 	player.apply_knockback(knockback)
 
-func _get_game_manager() -> GameManager:
-	return get_tree().current_scene as GameManager
+func _get_game_manager():
+	return get_tree().current_scene
 
 func get_time_remaining() -> float:
 	return timer.time_left
@@ -148,23 +154,3 @@ func get_time_remaining() -> float:
 func force_explode() -> void:
 	timer.stop()
 	_explode()
-
-
-
-# AUDIO FUNCTIONS #
-
-func _play_explosion_sound() -> void:
-	audio.stream = explosion_sound
-	audio.play()
-
-func _play_warning_sound() -> void:
-	audio.stream = warning_sound_a
-	audio.play()
-
-func _play_warning_sound_b() -> void:
-	audio.stream = warning_sound_b
-	audio.play()
-
-func _play_attach_sound() -> void:
-	audio.stream = attach_sound
-	audio.play()
