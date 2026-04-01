@@ -1,8 +1,0 @@
-res://Assets/Scenes/launch_platform.tscn
-res://Assets/Scripts/player.gd
-res://Assets/Scripts/launch_platform.gd
-res://Assets/Scenes/player.tscn
-res://Assets/Scenes/game.tscn
-res://Assets/Scripts/gravity_manager.gd
-res://Assets/Scenes/gravity_switch.tscn
-res://Assets/Scripts/gravity_switch.gd

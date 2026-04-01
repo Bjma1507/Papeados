@@ -42,7 +42,6 @@ func _process(_delta: float) -> void:
 	countdown_sound()
 
 func countdown_sound() -> void:
-
 	if has_exploded:
 		return
 
@@ -50,14 +49,11 @@ func countdown_sound() -> void:
 
 	if time_remaining <= warning_threshold:
 		if int(time_remaining) % 2 != 0:
-			if audio.stream != warning_sound_a:
-				audio.stream = warning_sound_a
-				audio.play()
+			if not audio.playing or audio.stream != warning_sound_a:
+				_play_warning_sound()
 		else:
-			if audio.stream != warning_sound_b:
-				audio.stream = warning_sound_b
-				audio.play()
-
+			if not audio.playing or audio.stream != warning_sound_b:
+				_play_warning_sound_b()
 
 func _setup_timers() -> void:
 	timer.wait_time = explosion_timer
@@ -79,8 +75,7 @@ func attach_to_player(player: Player) -> void:
 	attached_player = player
 	global_position = player.global_position + attach_offset
 	
-	audio.stream = attach_sound
-	audio.play()
+	_play_attach_sound()
 	
 	player.set_can_transfer_potato(false)
 	
@@ -108,8 +103,7 @@ func _toggle_visibility() -> void:
 func _explode() -> void:
 	has_exploded = true
 
-	audio.stream = explosion_sound
-	audio.play()
+	_play_explosion_sound()
 	
 	var players_in_range := _get_players_in_radius()
 	
@@ -154,3 +148,23 @@ func get_time_remaining() -> float:
 func force_explode() -> void:
 	timer.stop()
 	_explode()
+
+
+
+# AUDIO FUNCTIONS #
+
+func _play_explosion_sound() -> void:
+	audio.stream = explosion_sound
+	audio.play()
+
+func _play_warning_sound() -> void:
+	audio.stream = warning_sound_a
+	audio.play()
+
+func _play_warning_sound_b() -> void:
+	audio.stream = warning_sound_b
+	audio.play()
+
+func _play_attach_sound() -> void:
+	audio.stream = attach_sound
+	audio.play()

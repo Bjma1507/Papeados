@@ -1,22 +1,27 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1770515279
+::res://::1770951565
 default_bus_layout.tres::AudioBusLayout::7364731840342538623::1769378235::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::1054917381745504061::1769119422::1769119431::1::::<><><>0<>0<>118e1af9c248a88e6797f53580b5ba59<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://Assets/::1769128759
-::res://Assets/Scenes/::1769397166
+::res://Assets/Scenes/::1770519627
 explosive_potato.tscn::PackedScene::6958462937428621362::1769395658::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://Assets/Scripts/explosive_potato.gd<>uid://5e2mk42b1fob::::res://Assets/Sprites/papa-bomba.png<>uid://bkibvaoo17blg::::res://Assets/Sounds/FX061.mp3<>uid://dtkxnq8c88lr5::::res://Assets/Sounds/explosion.wav<>uid://dtgnovwxx87io::::res://Assets/Sounds/countdown-a.ogg<>uid://b2psa0wiuhlun::::res://Assets/Sounds/countdown-b.ogg
 floating-text.tscn::PackedScene::5745504654873448126::1769397039::0::1::::<><><>0<>0<><>::uid://bbc1nyqbs65i1::::res://Assets/Scenes/floating_text.gd
 floating_text.gd::GDScript::2462341425319961690::1769396915::0::1::::<>Node2D<><>0<>0<><>::
-game.tscn::PackedScene::7656119402039998235::1769397166::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://Assets/Scripts/game_manager.gd<>uid://c6ey4rllf7h2q::::res://Assets/Scenes/explosive_potato.tscn<>uid://j41u1vbi1c4e::::res://Assets/Scenes/player.tscn<>uid://vukn3ut7mbeo::::res://Assets/Scripts/world_bounds.gd<>uid://b36ehksen7j5y::::res://Assets/Scripts/platformGenerator.gd<>uid://cn4fvfkn0j8u1::::res://Assets/Scenes/floating-text.tscn
+game.tscn::PackedScene::7656119402039998235::1770519627::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://Assets/Scripts/game_manager.gd<>uid://c6ey4rllf7h2q::::res://Assets/Scenes/explosive_potato.tscn<>uid://j41u1vbi1c4e::::res://Assets/Scenes/player.tscn<>uid://vukn3ut7mbeo::::res://Assets/Scripts/world_bounds.gd<>uid://b36ehksen7j5y::::res://Assets/Scripts/platformGenerator.gd<>uid://cn4fvfkn0j8u1::::res://Assets/Scenes/floating-text.tscn<>uid://c1rju3yypxytd::::res://Assets/Scenes/launch_platform.tscn<>uid://5qsucu5ce3ry::::res://Assets/Scenes/gravity_switch.tscn
 game_over.tscn::PackedScene::5856271696444347146::1769220971::0::1::::<><><>0<>0<><>::
+gravity_switch.tscn::PackedScene::2139824112262536394::1770519464::0::1::::<><><>0<>0<><>::uid://mt366o501vyn::::res://Assets/Scripts/gravity_switch.gd
+launch_platform.tscn::PackedScene::6633429401447594001::1770517473::0::1::::<><><>0<>0<><>::uid://bl3plv3oucpx::::res://Assets/Scripts/launch_platform.gd
 lobby.tscn::PackedScene::8847567390072324895::1769220961::0::1::::<><><>0<>0<><>::
 main_menu.tscn::PackedScene::427541850981442688::1769135256::0::1::::<><><>0<>0<><>::
-player.tscn::PackedScene::693182303405198742::1769378632::0::1::::<><><>0<>0<><>::uid://br4dwbrs8eokr::::res://Assets/Scripts/player.gd<>uid://coxs3ira0qk3w::::res://Assets/Sprites/Old hero.png<>uid://ij2u5mblkjw8::::res://Assets/Sounds/SFX_Jump.wav
-::res://Assets/Scripts/::1769397154
-explosive_potato.gd::GDScript::5905514515597694696::1769395817::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
+player.tscn::PackedScene::693182303405198742::1770517356::0::1::::<><><>0<>0<><>::uid://br4dwbrs8eokr::::res://Assets/Scripts/player.gd<>uid://coxs3ira0qk3w::::res://Assets/Sprites/Old hero.png<>uid://ij2u5mblkjw8::::res://Assets/Sounds/SFX_Jump.wav
+::res://Assets/Scripts/::1770520267
+explosive_potato.gd::GDScript::5905514515597694696::1770520936::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
 game_manager.gd::GDScript::2927847005697942707::1769397154::0::1::::GameManager<>Node<><>0<>0<><>::
+gravity_manager.gd::GDScript::1146802199111682623::1770519613::0::1::::<>Node<><>0<>0<><>::
+gravity_switch.gd::GDScript::883246387640671537::1770520267::0::1::::<>Node2D<><>0<>0<><>::
+launch_platform.gd::GDScript::94624473128158173::1770518690::0::1::::LaunchPlatform<>Node2D<><>0<>0<><>::
 platformGenerator.gd::GDScript::4415959937702625160::1769195202::0::1::::<>Node2D<><>0<>0<><>::
-player.gd::GDScript::3639719498498727885::1769378632::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
+player.gd::GDScript::3639719498498727885::1770520576::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
 state_machine.gd::GDScript::2985512408159197389::1769221848::0::1::::StateMachine<>Node<><>0<>0<><>::
 world_bounds.gd::GDScript::1515885159184704986::1769139237::0::1::::<>Node2D<><>0<>0<><>::
 ::res://Assets/Sounds/::1769455154
