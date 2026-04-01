@@ -27,8 +27,30 @@ extends Node2D
 
 var platforms := []
 
+var _map_seed: int = 0
+
 func _ready():
-	randomize()
+	if multiplayer.is_server():
+		_map_seed = randi()
+		seed(_map_seed)
+		generate_platforms()
+		# Enviar semilla cuando un cliente pida sincronización
+	else:
+		# Pedir semilla al servidor
+		call_deferred("_request_seed")
+
+func _request_seed() -> void:
+	_ask_for_seed.rpc_id(1)
+
+@rpc("any_peer", "reliable")
+func _ask_for_seed() -> void:
+	if multiplayer.is_server():
+		var peer_id = multiplayer.get_remote_sender_id()
+		_receive_seed.rpc_id(peer_id, _map_seed)
+
+@rpc("authority", "reliable")
+func _receive_seed(seed_value: int) -> void:
+	seed(seed_value)
 	generate_platforms()
 
 func generate_platforms():
