@@ -6,7 +6,7 @@ class_name Player
 # ========================================
 const SPEED := 300.0
 const JUMP_VELOCITY := -400.0
-const GRAVITY := 900.0
+const GRAVITY := 900.0 #TODO: Añadir el gravitymanager
 const MAX_FALL_SPEED := 900.0
 const ACCELERATION := 800.0
 const FRICTION := 600.0
@@ -25,6 +25,7 @@ const FRICTION := 600.0
 @export_group("Player Configuration")
 @export var player_id := 1
 @export var use_custom_controls := false
+@export var player_name := "Player%d" % player_id
 
 # ========================================
 # CONFIGURACIÓN DE RED
@@ -287,12 +288,10 @@ func _start_dash() -> void:
 
 @rpc("any_peer", "reliable", "call_local")
 func _notify_dash_start() -> void:
-	# Aquí podrías agregar efectos visuales del dash
 	pass
 
 @rpc("any_peer", "reliable", "call_local")
 func _notify_dash_end() -> void:
-	# Aquí podrías agregar efectos de fin de dash
 	pass
 
 # ========================================
@@ -337,17 +336,15 @@ func set_can_transfer_potato(value: bool) -> void:
 	can_transfer_potato = value
 
 func _on_area_2d_body_entered(body: Node) -> void:
-	# Corre en el dueño del jugador (authority)
+	
 	if not is_multiplayer_authority():
 		return
 	if not (body is Player) or body == self:
 		return
-	# Knockback
 	var direction = (body.global_position - global_position).normalized()
 	body.apply_knockback(direction * 300.0)
-	# Pedir al servidor que intente transferir la papa (él decide si puede)
+	
 	if multiplayer.is_server():
-		# Ya somos el servidor, llamar directo
 		_ask_transfer(body.player_id)
 	else:
 		_ask_transfer.rpc_id(1, body.player_id)
@@ -359,7 +356,7 @@ func _ask_transfer(to_player_id: int) -> void:
 	var gm = _get_game_manager()
 	if not gm:
 		return
-	# El servidor verifica can_transfer_potato y si este jugador tiene la papa
+
 	if not can_transfer_potato:
 		return
 	if gm.get_player_with_potato() != self:

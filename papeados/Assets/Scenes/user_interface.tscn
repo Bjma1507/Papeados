@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://1cy5lki5vkj8"]
+
+[node name="Control" type="Control" unique_id=1282934399]
+clip_contents = true
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=837998260]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1064438141]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control" unique_id=1400791167]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2" unique_id=553654141]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/HBoxContainer" unique_id=71602190]
+layout_mode = 2
+text = "Ronda: 1 de 3"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control" unique_id=2086893037]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.21604939
+anchor_right = 0.06857639
+anchor_bottom = 0.69753087
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer" unique_id=1678468347]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/HBoxContainer" unique_id=539588095]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "InozaAki
+Bjma21
+Jonatan04"

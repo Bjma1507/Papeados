@@ -1,5 +1,5 @@
-extends Node
-
+extends Node 
+class_name GameManager
 
 # ========================================
 # SEÑALES
@@ -9,12 +9,20 @@ signal game_ended
 signal player_spawned(player: Player)
 signal potato_spawned(potato: ExplosivePotato)
 
+
+signal round_started(round_number: int, rounds_to_win: int)
+signal round_ended(survivor_peer_id: int)
+signal players_list(players: Dictionary)
+signal player_score_updated(peer_id: int, new_score: int)
+
+
 # ========================================
 # ESCENAS
 # ========================================
 @export var player_scene: PackedScene
 @export var explosive_potato_scene: PackedScene
 @export var floating_text_scene: PackedScene
+@export var game_hud_scene: PackedScene
 
 # ========================================
 # CONFIGURACIÓN DE SPAWN
@@ -43,6 +51,19 @@ var active_potatoes: Array[ExplosivePotato] = []
 var potato_spawn_timer: Timer
 var potato_attach_timer: Timer
 var state_machine: StateMachine
+
+
+# ========================================
+# RONDAS Y ESTADOS
+# ========================================
+
+var rounds_to_win := 3
+var round_number := 0
+var round_in_progress := false
+
+var player_scores: Dictionary = {}  # peer_id -> score
+var players_alive: Dictionary = {}  # peer_id -> bool
+var players_dead_this_round: Array[int] = []  # Lista de peer_ids que murieron en la ronda actual
 
 # Contador de spawn positions
 var next_spawn_index := 0
@@ -74,14 +95,46 @@ func _initialize_server() -> void:
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	
-	# Spawn del jugador del servidor
+	# spawn del jugador host (ID 1)
 	_spawn_player_for_peer(1)
-	
+
 	# Configurar spawner de papas
 	_setup_potato_spawner()
 	
-	# NO spawnear papa aquí - se spawneará cuando el segundo jugador llegue
+	_initialize_scoreboard()
+	_start_round()
+
 	game_started.emit()
+
+func _start_round() -> void:
+	if round_in_progress:
+		print("Error: No se puede iniciar una nueva ronda mientras la actual sigue en progreso")
+		return
+	
+	_initialize_round()
+
+func _initialize_round() -> void:
+	round_number += 1
+
+	print("=== Comenzando Ronda %d ===" % round_number)
+	
+	# Resetear estado de jugadores
+	for peer_id in players:
+		print("Marcando jugador %d como vivo para nueva ronda" % peer_id)
+		players_alive[peer_id] = true
+	
+	round_in_progress = true
+
+	round_started.emit(round_number, rounds_to_win)
+
+	if potato_spawn_timer.is_stopped():
+		potato_spawn_timer.start()
+	#players_list.emit(players)
+
+func _initialize_scoreboard() -> void:
+	player_scores.clear()
+	for peer_id in players:
+		player_scores[peer_id] = 0
 
 func _initialize_client() -> void:
 	print("=== Inicializando GameManager en CLIENTE ===")
@@ -93,13 +146,18 @@ func _request_game_state() -> void:
 
 @rpc("any_peer", "reliable")
 func _client_ready_rpc() -> void:
+	
 	if not multiplayer.is_server():
 		return
 	var peer_id = multiplayer.get_remote_sender_id()
+	
 	print("Cliente %d listo, enviando jugadores existentes..." % peer_id)
+	
 	for existing_id in players:
 		_spawn_player_on_clients.rpc_id(peer_id, existing_id, players[existing_id].global_position)
+	
 	# Esperar a que el cliente procese los jugadores y luego spawnear papa si hace falta
+	
 	if potato_spawn_on_ready and active_potatoes.is_empty():
 		await get_tree().create_timer(2.0).timeout
 		spawn_potato_on_random_player()
@@ -121,6 +179,9 @@ func _on_player_connected(peer_id: int) -> void:
 		if existing_peer_id != peer_id:
 			_sync_player_to_client.rpc_id(peer_id, existing_peer_id, players[existing_peer_id].global_position)
 
+# ========================================
+# DESCONEXIÓN DE JUGADORES
+# ========================================
 func _on_player_disconnected(peer_id: int) -> void:
 	print("Jugador desconectado: ", peer_id)
 	
@@ -156,7 +217,7 @@ func _spawn_player_for_peer(peer_id: int) -> void:
 	print("Spawneando jugador para peer: ", peer_id)
 	
 	# Obtener posición de spawn
-	var spawn_pos = spawn_positions[next_spawn_index % spawn_positions.size()]
+	var spawn_pos = spawn_positions[next_spawn_index % spawn_positions.size()] 
 	next_spawn_index += 1
 	
 	# Notificar a TODOS los clientes (incluido el nuevo) que spawnen el jugador
@@ -165,12 +226,16 @@ func _spawn_player_for_peer(peer_id: int) -> void:
 	# Spawnear en el servidor también
 	_create_player_instance(peer_id, spawn_pos)
 
+# ========================================
+# RPCs DE SINCRONIZACIÓN DE JUGADORES
+# ========================================
 @rpc("authority", "reliable", "call_local")
 func _spawn_player_on_clients(peer_id: int, spawn_pos: Vector2) -> void:
 	_create_player_instance(peer_id, spawn_pos)
 
 func _create_player_instance(peer_id: int, spawn_pos: Vector2) -> void:
 	if players.has(peer_id):
+		print("Error: El jugador %d ya existe en el cliente" % peer_id)
 		return  # Ya existe
 	
 	var player: Player = player_scene.instantiate()
@@ -187,11 +252,17 @@ func _create_player_instance(peer_id: int, spawn_pos: Vector2) -> void:
 	print("Jugador %d creado en posición %v" % [peer_id, spawn_pos])
 	player_spawned.emit(player)
 
+# ========================================
+# RPCs de sincronización de jugadores
+# ========================================
 @rpc("authority", "reliable")
 func _sync_player_to_client(peer_id: int, position: Vector2) -> void:
 	if not players.has(peer_id):
 		_create_player_instance(peer_id, position)
 
+# ========================================
+# RPC para remover jugador de los clientes
+# ========================================
 @rpc("authority", "reliable", "call_local")
 func _remove_player_from_clients(peer_id: int) -> void:
 	if players.has(peer_id):
@@ -251,6 +322,41 @@ func _spawn_potato_on_clients(target_peer_id: int) -> void:
 	potato_spawned.emit(potato)
 
 # ========================================
+# RESPAWN DE JUGADORES
+# ========================================
+func _respawn_player(peer_id: int) -> void:
+	if not multiplayer.is_server():
+		print("Error: Solo el servidor puede respawnear jugadores")
+		return
+	
+	print("Intentando respawnear jugador %d" % peer_id)
+
+	if not players_dead_this_round.has(peer_id):
+		print("Jugador %d no necesita respawn" % peer_id)
+		return
+	
+	# Remover el jugador viejo si existe
+	if players.has(peer_id):
+		var old_player = players[peer_id]
+		if is_instance_valid(old_player):
+			players.erase(peer_id)
+
+	# Obtener posición de spawn
+	var spawn_pos = spawn_positions[next_spawn_index % spawn_positions.size()]
+	next_spawn_index += 1
+	
+	print("Respawneando jugador %d en posición %v" % [peer_id, spawn_pos])
+
+	# Spawnear de nuevo
+	_spawn_player_on_clients.rpc(peer_id, spawn_pos)
+	players_dead_this_round.erase(peer_id)
+	players_alive[peer_id] = true
+
+	print("Jugador %d respawneado correctamente" % peer_id)
+
+	_create_player_instance(peer_id, spawn_pos)
+
+# ========================================
 # TRANSFERENCIA DE PAPA
 # ========================================
 func transfer_potato_network(from_player: Player, to_player: Player) -> void:
@@ -284,12 +390,78 @@ func _transfer_potato_on_clients(from_peer_id: int, to_peer_id: int) -> void:
 			break
 
 # ========================================
+# SINCRONIZACIÓN DE PUNTUACIÓN
+# ========================================
+@rpc("authority", "reliable", "call_local")
+func _update_player_score(peer_id: int, new_score: int) -> void:
+	player_scores[peer_id] = new_score
+	player_score_updated.emit(peer_id, new_score)
+	print("Puntuación actualizada - Jugador %d: %d" % [peer_id, new_score])
+
+# ========================================
+# VERIFICACIÓN DE FIN DE RONDA
+# ========================================
+func _check_round_end() -> void:
+	if not multiplayer.is_server():
+		return
+
+	var alive_players = players_alive.keys().filter(func(id): return players_alive[id] == true)
+
+	print("Jugadores vivos: ", alive_players.size())
+
+	if alive_players.size() <= 1:
+		var survivor = alive_players[0] if alive_players.size() == 1 else -1
+		_finish_round(survivor)
+		
+		for peer_id in players_dead_this_round:
+			print("Respawneando jugador %d para nueva ronda" % peer_id)
+			_respawn_player(peer_id)
+		
+	else:
+		await get_tree().create_timer(1.0).timeout
+		spawn_potato_on_random_player()
+
+# ========================================
+# FIN DE RONDA
+# ========================================
+func _finish_round(survivor_peer_id: int) -> void:
+    if not multiplayer.is_server():
+        return
+
+    round_in_progress = false
+    print("=== FIN DE RONDA %d ===" % round_number)
+
+    _announce_round_end.rpc(survivor_peer_id)
+    await get_tree().create_timer(3.0).timeout
+
+    if survivor_peer_id != -1:
+        player_scores[survivor_peer_id] += 1
+        _update_player_score.rpc(survivor_peer_id, player_scores[survivor_peer_id])
+
+        if player_scores[survivor_peer_id] >= rounds_to_win:
+            _end_game(survivor_peer_id)
+            return
+
+    _start_round()
+
+# ========================================
+# ANUNCIO DE FIN DE RONDA
+# ========================================
+@rpc("authority", "reliable", "call_local")
+func _announce_round_end(survivor_peer_id: int) -> void:
+	round_ended.emit(survivor_peer_id)
+	print("Ronda terminada. Sobrevivió Jugador: %d" % survivor_peer_id)
+
+# ========================================
 # EXPLOSIÓN DE PAPA
 # ========================================
 func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePotato) -> void:
 	if not multiplayer.is_server():
 		return  # Solo el servidor procesa explosiones
 	
+	if potato_spawn_timer:
+		potato_spawn_timer.stop()  # Detener spawns mientras procesamos la explosión
+
 	print("Papa explotando! Jugadores afectados: ", players_in_range.size())
 	
 	# Recolectar IDs de jugadores afectados
@@ -299,6 +471,13 @@ func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePota
 			var peer_id = players.find_key(p)
 			if peer_id != null:
 				affected_peer_ids.append(peer_id)
+				players_alive[peer_id] = false
+	
+	# Actualizar puntuación de jugadores supervivientes
+	for peer_id in players:
+		if peer_id not in affected_peer_ids:
+			player_scores[peer_id] += 1
+			_update_player_score.rpc(peer_id, player_scores[peer_id])
 	
 	# Notificar a todos los clientes (muestra animación/texto y elimina jugadores)
 	_handle_explosion_on_clients.rpc(affected_peer_ids)
@@ -307,27 +486,13 @@ func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePota
 	await potato.audio.finished
 	active_potatoes.erase(potato)
 	
-	# Esperar un momento y hacer respawn de los jugadores eliminados + nueva papa
-	await get_tree().create_timer(2.0).timeout
-	
-	for peer_id in affected_peer_ids:
-		_respawn_player(peer_id)
-	
+	# Verificar si la ronda debe terminar
 	await get_tree().create_timer(1.0).timeout
-	spawn_potato_on_random_player()
+	_check_round_end()
 
-func _respawn_player(peer_id: int) -> void:
-	if not multiplayer.is_server():
-		return
-	# Limpiar entrada vieja si quedó
-	if players.has(peer_id):
-		players.erase(peer_id)
-	# Spawnear de nuevo en posición aleatoria
-	var spawn_pos = spawn_positions[next_spawn_index % spawn_positions.size()]
-	next_spawn_index += 1
-	_spawn_player_on_clients.rpc(peer_id, spawn_pos)
-	_create_player_instance(peer_id, spawn_pos)
-
+# ========================================
+# MANEJO DE EXPLOSIÓN EN CLIENTES
+# ========================================
 @rpc("authority", "reliable", "call_local")
 func _handle_explosion_on_clients(affected_peer_ids: Array[int]) -> void:
 	for peer_id in affected_peer_ids:
@@ -340,30 +505,37 @@ func _handle_explosion_on_clients(affected_peer_ids: Array[int]) -> void:
 				text.global_position = player.global_position + Vector2(0, -40)
 				add_child(text)
 			
-			# Remover jugador
+			players_alive[peer_id] = false
+			if peer_id not in players_dead_this_round:
+				players_dead_this_round.append(peer_id)
+			
+			# Eliminar jugador del árbol de escenas
 			players.erase(peer_id)
 			player.queue_free()
 
 # ========================================
 # FIN DE JUEGO
 # ========================================
-func _end_game() -> void:
+func _end_game(winner_peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
 	
-	var winner_peer_id = players.keys()[0]
-	print("¡Juego terminado! Ganador: Jugador %d" % winner_peer_id)
+	print("¡JUEGO TERMINADO! Ganador: Jugador %d con %d puntos" % [winner_peer_id, player_scores[winner_peer_id]])
 	
+	round_in_progress = false
 	potato_spawn_on_ready = false
 	
 	if potato_spawn_timer:
 		potato_spawn_timer.stop()
 	
-	_announce_winner.rpc(winner_peer_id)
+	_announce_winner.rpc(winner_peer_id, player_scores[winner_peer_id])
 
+# ========================================
+# ANUNCIO DE GANADOR
+# ========================================
 @rpc("authority", "reliable", "call_local")
-func _announce_winner(winner_peer_id: int) -> void:
-	print("¡El ganador es el Jugador %d!" % winner_peer_id)
+func _announce_winner(winner_peer_id: int, final_score: int) -> void:
+	print("¡El ganador es el Jugador %d con %d puntos!" % [winner_peer_id, final_score])
 	game_ended.emit()
 
 # ========================================
@@ -381,9 +553,6 @@ func _player_has_potato(player: Player) -> bool:
 			return true
 	return false
 
-func win_condition_met() -> bool:
-	return players.size() == 1
-
 func get_player_by_id(peer_id: int) -> Player:
 	return players.get(peer_id, null)
 
@@ -392,6 +561,9 @@ func get_player_count() -> int:
 
 func get_active_potato_count() -> int:
 	return active_potatoes.size()
+
+func get_player_scores() -> Dictionary:
+	return player_scores.duplicate()
 
 # ========================================
 # DEBUG
