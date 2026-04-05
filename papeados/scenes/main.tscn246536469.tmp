@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dhcxfygh143yt"]
 
 [ext_resource type="Script" uid="uid://bhyjhhs7s1g2v" path="res://core/game_manager.gd" id="1_85g3d"]
-[ext_resource type="PackedScene" uid="uid://j41u1vbi1c4e" path="res://player/player.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://potato/explosive_potato.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cn4fvfkn0j8u1" path="res://ui/floating_text/floating-text.tscn" id="4_85g3d"]
 [ext_resource type="Script" uid="uid://vukn3ut7mbeo" path="res://world/world_bounds.gd" id="5_choun"]
@@ -16,7 +15,6 @@ script = ExtResource("1_85g3d")
 
 [node name="PlayerManager" type="Node" parent="." unique_id=839157539]
 script = ExtResource("6_85g3d")
-player_scene = ExtResource("3_choun")
 
 [node name="RoundManager" type="Node" parent="." unique_id=1474496845]
 script = ExtResource("7_choun")

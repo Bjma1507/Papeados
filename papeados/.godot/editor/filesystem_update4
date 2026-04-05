@@ -1,12 +1,6 @@
-res://Assets/Scripts/game_manager.gd
-res://Assets/Scenes/game_hud.tscn
-res://Assets/Scenes/lobby.tscn
-res://scenes/main.tscn
-res://multiplayer/lobby/lobby.gd
-res://potato/explosive_potato.tscn
-res://gameplay/round_manager.gd
-res://gameplay/potato_manager.gd
 res://player/modules/player_data.gd
+res://scenes/main.tscn
 res://gameplay/player_manager.gd
-res://core/validator.gd
-res://core/state_machine.gd
+res://gameplay/potato_manager.gd
+res://potato/explosive_potato.gd
+res://player/player.gd

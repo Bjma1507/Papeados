@@ -85,6 +85,8 @@ var action_dash: String
 # INICIALIZACIÓN
 # ========================================
 func _ready() -> void:
+	add_to_group("players")
+
 	_setup_input_actions()
 	_setup_network()
 	collision_area.body_entered.connect(_on_area_2d_body_entered)

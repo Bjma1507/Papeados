@@ -1,3 +1,4 @@
+Node
 Camera2D
 Control
 CanvasLayer
@@ -6,7 +7,6 @@ TextureRect
 Label
 HBoxContainer
 MarginContainer
-Node
 Button
 LineEdit
 VBoxContainer

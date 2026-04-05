@@ -176,29 +176,30 @@ git checkout -b fix/collision-bug
 ## Roadmap
 
 ### Fase 1: Definición del Proyecto
-**21 enero - 16 febrero 2026**
+**21 enero - 13 marzo 2026**
 - [x] Definir concepto del juego
 - [x] Documentar propuesta
 - [x] Asignar roles al equipo
 - [x] Crear repositorio y README
-- [ ] Entrega documentación Fase 1
+- [x] Entrega documentación Fase 1
 
 ### Fase 2: Desarrollo del Prototipo
-**17 febrero - ????**
+**13 marzo - 25 abril 2026**
 - [ ] Implementar mecánicas básicas (movimiento, colisión)
 - [ ] Implementar temporizador
 - [ ] Sistema de networking básico
 - [ ] Interfaz de usuario mínima
 - [ ] Testing multijugador
+- [ ] Entrega documentación Fase 2
 
 ### Fase 3: Refinamiento y Entrega Final
-**???? - ????**
+**25 abril - 12 mayo 2026**
 - [ ] Optimización de red
 - [ ] Arte y audio finales
 - [ ] Testing exhaustivo
 - [ ] Documentación completa
 - [ ] Presentación del proyecto
-
+- [ ] Entrega documentación Fase 3 
 ---
 
 ## Equipo
