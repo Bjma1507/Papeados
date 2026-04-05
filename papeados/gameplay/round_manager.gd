@@ -23,6 +23,12 @@ Manages the flow of the starting rounds, used to respawn players at the beginnin
 
 Args:
 	player_manager (PlayerManager): The PlayerManager instance to manage player states and respawns.
+
+Emits:
+	round_started(round_number: int, rounds_to_win: int): 
+		(RPC) Emitted at the start of each round with the current round number and rounds needed to win.
+	round_ready_to_spawn: Emitted when the round is ready for potatoes to start spawning.
+
 '''
 func start_round(player_manager: PlayerManager) -> void:
 	if not Validator.ensure_server(self):
@@ -32,26 +38,22 @@ func start_round(player_manager: PlayerManager) -> void:
 		push_warning("[RoundManager] Intento de iniciar ronda mientras una ya está en progreso.")
 		return
  
-	# Respawnear jugadores muertos de la ronda anterior
 	for peer_id in players_dead_this_round.duplicate():
 		player_manager.respawn_player(peer_id)
  
 	players_dead_this_round.clear()
  
-	# Esperar a que los jugadores estén listos en escena
 	await get_tree().create_timer(respawn_delay).timeout
  
 	round_number += 1
 	round_in_progress = true
  
-	# Marcar todos como vivos
 	for peer_id in player_manager.get_all_peer_ids():
 		player_manager.mark_player_alive(peer_id)
  
 	print("[RoundManager] === Comenzando Ronda %d ===" % round_number)
 	_announce_round_start.rpc(round_number, rounds_to_win)
  
-	# Avisar al GameManager que ya puede spawnear la papa
 	round_ready_to_spawn.emit()
 
 
