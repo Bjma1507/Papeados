@@ -28,9 +28,6 @@ script = ExtResource("8_ya4ey")
 script = ExtResource("9_eb6dy")
 explosive_potato_scene = ExtResource("3_tipki")
 floating_text_scene = ExtResource("4_85g3d")
-potato_spawn_interval = null
-potato_attach_delay = null
-auto_spawn = null
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1710669209]
 

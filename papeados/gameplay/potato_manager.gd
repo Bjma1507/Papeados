@@ -90,7 +90,7 @@ Args:
 '''
 func _create_potato(target_player: Player) -> void:
 	var potato: ExplosivePotato = explosive_potato_scene.instantiate()
-	# Pasar el delay configurado en el manager a la papa
+	
 	potato.attach_delay = potato_attach_delay
 	add_child(potato)
 	potato.attach_to_player(target_player)

@@ -4,3 +4,5 @@ res://gameplay/player_manager.gd
 res://gameplay/potato_manager.gd
 res://potato/explosive_potato.gd
 res://player/player.gd
+res://core/game_manager.gd
+res://gameplay/round_manager.gd

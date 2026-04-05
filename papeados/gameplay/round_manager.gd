@@ -4,6 +4,7 @@ class_name RoundManager
 # Signals
 signal round_started(round_number: int, rounds_to_win: int)
 signal round_ended(survivor_peer_id: int)
+signal round_ready_to_spawn
 signal all_rounds_completed(winner_peer_id: int)
 
 # Config variables
@@ -26,25 +27,32 @@ Args:
 func start_round(player_manager: PlayerManager) -> void:
 	if not Validator.ensure_server(self):
 		return
-
+ 
 	if round_in_progress:
 		push_warning("[RoundManager] Intento de iniciar ronda mientras una ya está en progreso.")
 		return
-
+ 
+	# Respawnear jugadores muertos de la ronda anterior
 	for peer_id in players_dead_this_round.duplicate():
-		await get_tree().create_timer(respawn_delay).timeout
 		player_manager.respawn_player(peer_id)
-
+ 
 	players_dead_this_round.clear()
-
+ 
+	# Esperar a que los jugadores estén listos en escena
+	await get_tree().create_timer(respawn_delay).timeout
+ 
 	round_number += 1
 	round_in_progress = true
-
+ 
+	# Marcar todos como vivos
 	for peer_id in player_manager.get_all_peer_ids():
 		player_manager.mark_player_alive(peer_id)
-
+ 
 	print("[RoundManager] === Comenzando Ronda %d ===" % round_number)
 	_announce_round_start.rpc(round_number, rounds_to_win)
+ 
+	# Avisar al GameManager que ya puede spawnear la papa
+	round_ready_to_spawn.emit()
 
 
 @rpc("authority", "reliable", "call_local")
@@ -64,10 +72,10 @@ Args:
 func check_round_end(player_manager: PlayerManager, score_manager: ScoreManager, potato_manager: PotatoManager) -> void:
 	if not Validator.ensure_server(self):
 		return
-
+ 
 	var alive = player_manager.get_alive_peer_ids()
 	print("[RoundManager] Jugadores vivos: %d" % alive.size())
-
+ 
 	if alive.size() <= 1:
 		var survivor_id = alive[0] if alive.size() == 1 else -1
 		await _finish_round(survivor_id, player_manager, score_manager, potato_manager)
@@ -92,19 +100,18 @@ Args:
 func _finish_round(survivor_peer_id: int, player_manager: PlayerManager, score_manager: ScoreManager, potato_manager: PotatoManager) -> void:
 	round_in_progress = false
 	potato_manager.stop_spawn_timer()
-
+ 
 	print("[RoundManager] === FIN DE RONDA %d ===" % round_number)
 	_announce_round_end.rpc(survivor_peer_id)
-
-	await get_tree().create_timer(round_end_delay).timeout
-
+ 
 	if survivor_peer_id != -1:
 		score_manager.add_score(survivor_peer_id)
-
 		if score_manager.has_won(survivor_peer_id, rounds_to_win):
+			await get_tree().create_timer(round_end_delay).timeout
 			all_rounds_completed.emit(survivor_peer_id)
 			return
-
+ 
+	await get_tree().create_timer(round_end_delay).timeout
 	start_round(player_manager)
 
 

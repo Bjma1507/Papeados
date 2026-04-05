@@ -36,7 +36,6 @@ func _initialize_server() -> void:
 
 	score_manager.initialize(player_manager.get_all_peer_ids())
 	round_manager.start_round(player_manager)
-	_spawn_first_potato()
 
 	game_started.emit()
 
@@ -58,7 +57,7 @@ Helper method to connect signals from the PotatoManager and RoundManager to the 
 func _connect_signals() -> void:
 	potato_manager.players_affected_by_explosion.connect(_on_players_affected_by_explosion)
 	round_manager.all_rounds_completed.connect(_on_all_rounds_completed)
-
+	round_manager.round_ready_to_spawn.connect(_on_round_ready_to_spawn)
 
 func _request_game_state() -> void:
 	_client_ready_rpc.rpc_id(1)
@@ -200,6 +199,22 @@ func _on_all_rounds_completed(winner_peer_id: int) -> void:
 
 	_announce_winner.rpc(winner_peer_id, score_manager.get_score(winner_peer_id))
 
+
+'''
+Handles the event when the round is ready to spawn a new potato.
+This is called by the RoundManager when a new round starts and it's time to spawn the first potato.
+It selects a random alive player and spawns a potato on them to kick off the round.
+'''
+func _on_round_ready_to_spawn() -> void:
+	if not multiplayer.is_server():
+		return
+ 
+	var target = player_manager.get_random_alive_player()
+	if target:
+		potato_manager.spawn_potato_on_player(target, player_manager)
+		potato_manager.start_spawn_timer()
+	else:
+		push_warning("[GameManager] No hay jugadores vivos al intentar spawnear papa.")
 
 '''
 RPC function to announce the winner of the game on all clients.
