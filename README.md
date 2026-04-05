@@ -101,15 +101,30 @@ Este proyecto es desarrollado como parte del curso de **Videojuegos en Red** con
 ### Estructura del Proyecto
 ```
 papeados/
-├── Assets/              # Recursos del juego
-│   ├── Scripts/        # Código fuente
-│   ├── Sprites/        # Gráficos
-│   ├── Sounds/         # Audio
-│   └── Scenes/         # Escenas/niveles
-├── Docs/               # Documentación
-│   ├── propuesta.md    # Documento de propuesta
-│   ├── manual.md       # Manual de usuario
-│   └── technical.md    # Documentación técnica
+├── assets/             # Recursos del juego
+│   ├── sprites/        # Gráficos
+│   └── sounds/         # Audio
+│
+├── core/               # Lógica global
+│
+├── gameplay/           # Reglas del juego
+│
+├── multiplayer/        # Red
+│
+├── player/             # Jugadores
+│
+├── potato/             # Papa caliente
+│
+├── scenes/             # Escenas
+│
+├── ui/                 # Interfaz de usuario
+│
+├── world/              # Físicas del mundo
+│
+├── docs/               # Documentación
+│   ├── propuesta.md    # Documento de propuesta (por crear)
+│   ├── manual.md       # Manual de usuario (por crear)
+│   └── technical.md    # Documentación técnica (por crear)
 ├── Tests/              # Pruebas unitarias
 └── README.md           # Este archivo
 ```

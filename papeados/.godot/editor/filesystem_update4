@@ -9,3 +9,4 @@ res://gameplay/potato_manager.gd
 res://player/modules/player_data.gd
 res://gameplay/player_manager.gd
 res://core/validator.gd
+res://core/state_machine.gd
