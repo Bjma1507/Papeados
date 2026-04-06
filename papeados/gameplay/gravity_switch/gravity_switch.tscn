@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://5qsucu5ce3ry"]
+
+[ext_resource type="Script" uid="uid://mt366o501vyn" path="res://world/gravity_switch.gd" id="1_mc1hc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_psnhm"]
+
+[node name="GravitySwitch" type="Node2D" unique_id=975143505]
+script = ExtResource("1_mc1hc")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=698280655]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=565553561]
+shape = SubResource("RectangleShape2D_psnhm")

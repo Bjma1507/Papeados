@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://dhcxfygh143yt"]
+
+[ext_resource type="Script" uid="uid://bhyjhhs7s1g2v" path="res://core/game_manager.gd" id="1_85g3d"]
+[ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://potato/explosive_potato.tscn" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://cn4fvfkn0j8u1" path="res://ui/floating_text/floating-text.tscn" id="4_85g3d"]
+[ext_resource type="Script" uid="uid://vukn3ut7mbeo" path="res://world/world_bounds.gd" id="5_choun"]
+[ext_resource type="Script" uid="uid://22qt6jy1ovy2" path="res://gameplay/player_manager.gd" id="6_85g3d"]
+[ext_resource type="Script" uid="uid://b36ehksen7j5y" path="res://world/platform_generator.gd" id="6_ya4ey"]
+[ext_resource type="Script" uid="uid://dmssb76jls2xa" path="res://gameplay/round_manager.gd" id="7_choun"]
+[ext_resource type="Script" uid="uid://dfok48u3r818n" path="res://gameplay/score_manager.gd" id="8_ya4ey"]
+[ext_resource type="Script" uid="uid://dx4cddxmgcad8" path="res://gameplay/potato_manager.gd" id="9_eb6dy"]
+
+[node name="GameManager" type="Node" unique_id=176361699]
+script = ExtResource("1_85g3d")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1710669209]
+
+[node name="World" type="Node2D" parent="." unique_id=2140676501]
+script = ExtResource("5_choun")
+arena_height = 500
+
+[node name="Platforms" type="Node2D" parent="World" unique_id=465749731]
+script = ExtResource("6_ya4ey")
+
+[node name="PlayerManager" type="Node" parent="." unique_id=839157539]
+script = ExtResource("6_85g3d")
+
+[node name="RoundManager" type="Node" parent="." unique_id=1474496845]
+script = ExtResource("7_choun")
+
+[node name="ScoreManager" type="Node" parent="." unique_id=1014731961]
+script = ExtResource("8_ya4ey")
+
+[node name="PotatoManager" type="Node" parent="." unique_id=678999307]
+script = ExtResource("9_eb6dy")
+explosive_potato_scene = ExtResource("3_tipki")
+floating_text_scene = ExtResource("4_85g3d")
+potato_spawn_interval = null
+potato_attach_delay = null
+auto_spawn = null

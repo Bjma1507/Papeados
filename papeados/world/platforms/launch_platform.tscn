@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c1rju3yypxytd"]
+
+[ext_resource type="Script" uid="uid://bl3plv3oucpx" path="res://world/platforms/launch_platform.gd" id="1_w07f6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w07f6"]
+size = Vector2(10.5, 1)
+
+[node name="LaunchPlatform" type="Node2D" unique_id=410638877]
+script = ExtResource("1_w07f6")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=747514023]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=604072459]
+shape = SubResource("RectangleShape2D_w07f6")
+debug_color = Color(0.9987095, 0, 0.1468184, 0.41960785)

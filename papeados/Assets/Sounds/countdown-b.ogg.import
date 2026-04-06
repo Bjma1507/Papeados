@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://b2psa0wiuhlun"
-path="res://.godot/imported/countdown-b.ogg-fff5175da8200090fe6a0916dd9aa4f6.oggvorbisstr"
+path="res://.godot/imported/countdown-b.ogg-37424f2f420d2721ed4bcc6f5511df51.oggvorbisstr"
 
 [deps]
 
-source_file="res://Assets/Sounds/countdown-b.ogg"
-dest_files=["res://.godot/imported/countdown-b.ogg-fff5175da8200090fe6a0916dd9aa4f6.oggvorbisstr"]
+source_file="res://assets/sounds/countdown-b.ogg"
+dest_files=["res://.godot/imported/countdown-b.ogg-37424f2f420d2721ed4bcc6f5511df51.oggvorbisstr"]
 
 [params]
 

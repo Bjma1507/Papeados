@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cn4fvfkn0j8u1"]
+
+[ext_resource type="Script" uid="uid://bbc1nyqbs65i1" path="res://ui/floating_text/floating_text.gd" id="1_wnp7b"]
+
+
+[node name="FloatingText" type="Node2D" unique_id=607302579]
+script = ExtResource("1_wnp7b")
+
+[node name="Label" type="Label" parent="." unique_id=779715236]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "PAPEADO"
