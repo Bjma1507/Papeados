@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dyb3e3py2r424"]
+
+[ext_resource type="Script" uid="uid://c2byutvgdwa32" path="res://multiplayer/lobby/lobby.gd" id="1_a73jb"]
+[ext_resource type="Texture2D" uid="uid://5t1ed63y5ngq" path="res://ui/1.png" id="2_8x43j"]
+
+[node name="Lobby" type="Control" unique_id=681052309]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a73jb")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=576493694]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_8x43j")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="HostButton" type="Button" parent="." unique_id=1666762276]
+layout_mode = 0
+offset_left = 686.0
+offset_top = 243.0
+offset_right = 1052.0
+offset_bottom = 323.0
+
+[node name="JoinButton" type="Button" parent="." unique_id=777062108]
+layout_mode = 0
+offset_left = 686.0
+offset_top = 356.0
+offset_right = 1052.0
+offset_bottom = 436.0

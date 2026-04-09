@@ -1,3 +1,50 @@
 [gd_scene format=3 uid="uid://gdds051j60cq"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://5t1ed63y5ngq" path="res://ui/1.png" id="1_5oih7"]
+[ext_resource type="Script" uid="uid://cwyadlqydlyge" path="res://ui/menus/main_menu.gd" id="1_qc8qn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5oih7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qc8qn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ssi0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1njj5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h223f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3r6a"]
+
+[node name="Node2D" type="Node2D" unique_id=1797718877]
+script = ExtResource("1_qc8qn")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1260157216]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_5oih7")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CrearPartidaBtn" type="Button" parent="." unique_id=280323381]
+offset_left = 688.0
+offset_top = 245.0
+offset_right = 1054.0
+offset_bottom = 321.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5oih7")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_qc8qn")
+
+[node name="UnirseBtn" type="Button" parent="." unique_id=25230727]
+offset_left = 688.0
+offset_top = 358.0
+offset_right = 1054.0
+offset_bottom = 434.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5ssi0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1njj5")
+
+[node name="SalirBtn" type="Button" parent="." unique_id=1172482943]
+offset_left = 681.0
+offset_top = 469.0
+offset_right = 1047.0
+offset_bottom = 545.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_h223f")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l3r6a")
