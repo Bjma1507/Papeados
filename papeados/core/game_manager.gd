@@ -112,6 +112,8 @@ func _client_ready_rpc() -> void:
  
 	player_manager.spawn_player(new_peer_id)
 	score_manager.register_player(new_peer_id)
+ 
+	_sync_state.rpc_id(new_peer_id, state_machine.get_current_state())
 
 '''
 Connects a new player to the game by spawning their player instance and registering them in the score manager.
@@ -276,19 +278,57 @@ func _request_restart_rpc() -> void:
  
 func _do_restart() -> void:
 	print("[GameManager] Reiniciando partida...")
-	
+
 	potato_manager.stop_all_potatoes()
-	score_manager.initialize(player_manager.get_all_peer_ids())
+
 	round_manager.round_number = 0
 	round_manager.round_in_progress = false
 	round_manager.players_dead_this_round.clear()
-	
+
+	_restart_on_clients.rpc()
+
+	await get_tree().process_frame
+
 	for peer_id in player_manager.get_all_peer_ids():
-		player_manager.respawn_player(peer_id)
-		
+		player_manager.remove_player(peer_id)
+
+	await get_tree().process_frame
+
+	for peer_id in multiplayer.get_peers():
+		player_manager.spawn_player(peer_id)
+
+	player_manager.spawn_player(1)
+
+	score_manager.initialize(player_manager.get_all_peer_ids())
+	
 	state_machine.on_game_started()
 	round_manager.start_round(player_manager)
 
+@rpc("authority", "reliable", "call_local")
+func _restart_on_clients() -> void:
+	print("[GameManager] Reinicio recibido en cliente")
+
+	potato_manager.stop_all_potatoes()
+
+	round_manager.round_number = 0
+	round_manager.round_in_progress = false
+	round_manager.players_dead_this_round.clear()
+
+	for peer_id in player_manager.get_all_peer_ids():
+		player_manager.remove_player(peer_id)
+
+	score_manager.initialize([])
+
+	state_machine.on_game_started()
+
+func _sync_players_to_all():
+	for target_peer in multiplayer.get_peers():
+		for existing_id in player_manager.get_all_peer_ids():
+			player_manager._spawn_player_on_clients.rpc_id(
+				target_peer,
+				existing_id,
+				player_manager.get_player_position(existing_id)
+			)
 
 '''
 Helper methods to get player instances, transfer the potato, and other game-related queries.

@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1776047196
+::res://::1776221416
 default_bus_layout.tres::AudioBusLayout::7364731840342538623::1770338704::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::1054917381745504061::1770338704::1775928807::1::::<><><>0<>0<>118e1af9c248a88e6797f53580b5ba59<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://assets/::1776027492
@@ -12,7 +12,7 @@ explosion.wav::AudioStreamWAV::8514914455385336868::1770338704::1775928812::1:::
 FX061.mp3::AudioStreamMP3::3104922383070034144::1770338704::1775928807::1::::<><><>0<>0<>e3aa1589d6ac7493a716c49c8a39f5c6<>res://.godot/imported/FX061.mp3-de882d79acb8386dc0c70e4b3244fea1.mp3str::
 nutfall.wav::AudioStreamWAV::3692688238970665842::1776019667::1776019668::1::::<><><>0<>0<>7dfa1b1e07521c0971dc89aea2840931<>res://.godot/imported/nutfall.wav-498206bb518978cccafc27d40de5a51a.sample::
 SFX_Jump.wav::AudioStreamWAV::581766817872286161::1770338704::1775928812::1::::<><><>0<>0<>62bb86e996a11a524316c209bb905073<>res://.godot/imported/SFX_Jump.wav-3813edce687e45a9dd81f2c9da62fd1d.sample::
-::res://assets/sprites/::1776048232
+::res://assets/sprites/::1776048233
 Old hero.png::CompressedTexture2D::5804109221243689798::1770338704::1775928809::1::::<><><>0<>0<>6c0f86ad79b26d76caa6d3700e162b3b<>res://.godot/imported/Old hero.png-eda9114072dd3b9a6cbe3dfef470f6f0.ctex::
 papa-bomba.png::CompressedTexture2D::2115584179750714353::1770338704::1775928810::1::::<><><>0<>0<>30b63f204524c85fb07b1fe5930a62c4<>res://.godot/imported/papa-bomba.png-a7f1a868d12ca1412a5b9e96dd0eb56d.ctex::
 tile_0107.png::CompressedTexture2D::7288328095661438692::1776048232::1776048233::1::::<><><>0<>0<>a50e8d2e39f0f6b5131ea598173a035a<>res://.godot/imported/tile_0107.png-52d2a7a1c56110accfebac2da4169b43.ctex::
@@ -52,10 +52,10 @@ player.tscn::PackedScene::693182303405198742::1776047967::0::1::::<><><>0<>0<><>
 ::res://potato/::1775426384
 explosive_potato.gd::GDScript::5905514515597694696::1775426383::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
 explosive_potato.tscn::PackedScene::6958462937428621362::1775348106::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://potato/explosive_potato.gd<>uid://5e2mk42b1fob::::res://assets/sprites/papa-bomba.png<>uid://bkibvaoo17blg::::res://assets/sounds/FX061.mp3<>uid://dtkxnq8c88lr5::::res://assets/sounds/explosion.wav<>uid://dtgnovwxx87io::::res://assets/sounds/countdown-a.ogg<>uid://b2psa0wiuhlun::::res://assets/sounds/countdown-b.ogg
-::res://scenes/::1776047996
+::res://scenes/::1776048905
 borde.png::CompressedTexture2D::6060469072566226284::1775928696::1775928809::1::::<><><>0<>0<>2535468138dbd74a7bf8f6b8e57be403<>res://.godot/imported/borde.png-0d7ac0e52d0e972798af29e83056dc10.ctex::
 fondo.png::CompressedTexture2D::7432460837764830474::1775928696::1775928809::1::::<><><>0<>0<>1056e3b29d2da8a3a2444a6a95bd19cd<>res://.godot/imported/fondo.png-fde226daa00939c587d33a4c41b2a481.ctex::
-main.tscn::PackedScene::7656119402039998235::1776047996::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://core/game_manager.gd<>uid://bnu7eim07dvx8::::res://core/game_state_machine.gd<>uid://j41u1vbi1c4e::::res://player/player.tscn<>uid://c6ey4rllf7h2q::::res://potato/explosive_potato.tscn<>uid://cn4fvfkn0j8u1::::res://ui/floating_text/floating-text.tscn<>uid://vukn3ut7mbeo::::res://world/world_bounds.gd<>uid://22qt6jy1ovy2::::res://gameplay/player_manager.gd<>uid://b36ehksen7j5y::::res://world/platform_generator.gd<>uid://dmssb76jls2xa::::res://gameplay/round_manager.gd<>uid://dfok48u3r818n::::res://gameplay/score_manager.gd<>uid://dx4cddxmgcad8::::res://gameplay/potato_manager.gd<>uid://bi2n7cq6y81nh::::res://ui/ui_manager.gd<>uid://bto1ws2nrfwml::::res://assets/background/back.png<>uid://c1rju3yypxytd::::res://world/platforms/launch_platform.tscn
+main.tscn::PackedScene::7656119402039998235::1776048905::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://core/game_manager.gd<>uid://bnu7eim07dvx8::::res://core/game_state_machine.gd<>uid://j41u1vbi1c4e::::res://player/player.tscn<>uid://c6ey4rllf7h2q::::res://potato/explosive_potato.tscn<>uid://cn4fvfkn0j8u1::::res://ui/floating_text/floating-text.tscn<>uid://vukn3ut7mbeo::::res://world/world_bounds.gd<>uid://22qt6jy1ovy2::::res://gameplay/player_manager.gd<>uid://b36ehksen7j5y::::res://world/platform_generator.gd<>uid://dmssb76jls2xa::::res://gameplay/round_manager.gd<>uid://dfok48u3r818n::::res://gameplay/score_manager.gd<>uid://dx4cddxmgcad8::::res://gameplay/potato_manager.gd<>uid://bi2n7cq6y81nh::::res://ui/ui_manager.gd<>uid://bto1ws2nrfwml::::res://assets/background/back.png<>uid://c1rju3yypxytd::::res://world/platforms/launch_platform.tscn
 P1.png::CompressedTexture2D::7351048285555775172::1775928695::1775928809::1::::<><><>0<>0<>f5ce3ed817feca6dcf8b830da6f14fec<>res://.godot/imported/P1.png-041f3239194c5497ae6cdfedb2c625bb.ctex::
 P2.png::CompressedTexture2D::9171637965456292162::1775928695::1775928809::1::::<><><>0<>0<>b7306d1cd7e6276c0080109e7eebedd4<>res://.godot/imported/P2.png-a19283aed999ba6485bece52b3c58ea2.ctex::
 P3.png::CompressedTexture2D::3055137453236013028::1775928696::1775928809::1::::<><><>0<>0<>dec16fd7a34c1cee626343349570053c<>res://.godot/imported/P3.png-324a55bca38151da8f796da52ad4efd4.ctex::
@@ -84,6 +84,6 @@ gravity_manager.gd::GDScript::1146802199111682623::1770519613::0::1::::<>Node<><
 gravity_switch.gd::GDScript::883246387640671537::1770520267::0::1::::<>Node2D<><>0<>0<><>::
 platform_generator.gd::GDScript::4415959937702625160::1775931683::0::1::::<>Node2D<><>0<>0<><>::
 world_bounds.gd::GDScript::1515885159184704986::1775931861::0::1::::<>Node2D<><>0<>0<><>::
-::res://world/platforms/::1776048064
+::res://world/platforms/::1776048744
 launch_platform.gd::GDScript::94624473128158173::1770518690::0::1::::LaunchPlatform<>Node2D<><>0<>0<><>::
-launch_platform.tscn::PackedScene::6633429401447594001::1776048064::0::1::::<><><>0<>0<><>::uid://bl3plv3oucpx::::res://world/platforms/launch_platform.gd
+launch_platform.tscn::PackedScene::6633429401447594001::1776048744::0::1::::<><><>0<>0<><>::uid://bl3plv3oucpx::::res://world/platforms/launch_platform.gd<>uid://cmvn5dpyc0ow2::::res://assets/sprites/tile_0108.png

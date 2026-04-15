@@ -1,4 +1,3 @@
 res://scenes/main.tscn
-res://player/player.tscn
-res://player/player.gd
-res://world/platforms/launch_platform.tscn
+res://ui/ui_manager.gd
+res://core/game_manager.gd
