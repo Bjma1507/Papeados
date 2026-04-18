@@ -11,6 +11,12 @@ signal game_ended
 @onready var round_manager: RoundManager = $RoundManager
 @onready var score_manager: ScoreManager = $ScoreManager
 
+# Game state machine
+@onready var state_machine: GameStateMachine = $StateMachine
+
+# UI Module
+@onready var ui_manager: UIManager = $UIManager
+
 # Initialization
 func _ready() -> void:
 	if multiplayer.is_server():
@@ -25,20 +31,20 @@ It connects necessary signals, spawns the host player, initializes the score man
 '''
 func _initialize_server() -> void:
 	print("[GameManager] === Inicializando SERVIDOR ===")
-
+ 
 	_connect_signals()
-
-	multiplayer.peer_connected.connect(_on_peer_connected)
+ 
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
-	# Host spawn
+	state_machine.setup(self)
+
 	player_manager.spawn_player(1)
-
 	score_manager.initialize(player_manager.get_all_peer_ids())
+
+	state_machine.on_game_started()
 	round_manager.start_round(player_manager)
-
+ 
 	game_started.emit()
-
 
 
 '''
@@ -49,6 +55,7 @@ indicate that the client is ready to receive the current game state, including e
 '''
 func _initialize_client() -> void:
 	print("[GameManager] === Inicializando CLIENTE ===")
+	state_machine.setup(self)
 	call_deferred("_request_game_state")
 
 '''
@@ -56,8 +63,30 @@ Helper method to connect signals from the PotatoManager and RoundManager to the 
 '''
 func _connect_signals() -> void:
 	potato_manager.players_affected_by_explosion.connect(_on_players_affected_by_explosion)
+	
 	round_manager.all_rounds_completed.connect(_on_all_rounds_completed)
 	round_manager.round_ready_to_spawn.connect(_on_round_ready_to_spawn)
+	
+	round_manager.round_started.connect(_on_round_started)
+	round_manager.round_ended.connect(_on_round_ended)
+	
+	state_machine.state_changed.connect(_on_state_changed)
+	
+func _on_state_changed(_old_state: GameStateMachine.GameState, new_state: GameStateMachine.GameState) -> void:
+	if multiplayer.is_server():
+		_sync_state.rpc(new_state)
+
+@rpc("authority", "reliable")
+func _sync_state(new_state: GameStateMachine.GameState) -> void:
+	if multiplayer.is_server():
+		return
+	state_machine.change_state(new_state)
+  
+func _on_round_started(_round_number: int, _rounds_to_win: int) -> void:
+	state_machine.on_round_started()
+ 
+func _on_round_ended(_survivor: int) -> void:
+	state_machine.on_round_ended()
 
 func _request_game_state() -> void:
 	_client_ready_rpc.rpc_id(1)
@@ -72,21 +101,19 @@ including existing players and the active potato if there is one.
 func _client_ready_rpc() -> void:
 	if not multiplayer.is_server():
 		return
-
-	var peer_id = multiplayer.get_remote_sender_id()
-	print("[GameManager] Cliente %d listo." % peer_id)
-
+ 
+	var new_peer_id = multiplayer.get_remote_sender_id()
+	print("[GameManager] Cliente %d listo en escena." % new_peer_id)
+ 
 	for existing_id in player_manager.get_all_peer_ids():
 		player_manager._spawn_player_on_clients.rpc_id(
-			peer_id, existing_id, player_manager.get_player_position(existing_id)
+			new_peer_id, existing_id, player_manager.get_player_position(existing_id)
 		)
-
-	if not potato_manager.has_active_potato():
-		await get_tree().create_timer(2.0).timeout
-		var target = player_manager.get_random_alive_player()
-		if target:
-			potato_manager.spawn_potato_on_player(target, player_manager)
-
+ 
+	player_manager.spawn_player(new_peer_id)
+	score_manager.register_player(new_peer_id)
+ 
+	_sync_state.rpc_id(new_peer_id, state_machine.get_current_state())
 
 '''
 Connects a new player to the game by spawning their player instance and registering them in the score manager.
@@ -143,17 +170,17 @@ Args:
 func _on_players_affected_by_explosion(affected_peer_ids: Array[int]) -> void:
 	if not multiplayer.is_server():
 		return
-
+ 
 	print("[GameManager] Procesando explosión. Afectados: %s" % str(affected_peer_ids))
-
-	_handle_explosion_on_clients.rpc(affected_peer_ids)
-
+ 
 	for peer_id in affected_peer_ids:
 		round_manager.register_death(peer_id, player_manager)
-
+ 
 	for peer_id in player_manager.get_alive_peer_ids():
-		score_manager.add_score(peer_id)
+		score_manager.add_score(peer_id) 
 
+	_handle_explosion_on_clients.rpc(affected_peer_ids)
+ 
 	await get_tree().create_timer(1.0).timeout
 	round_manager.check_round_end(player_manager, score_manager, potato_manager)
 
@@ -175,9 +202,14 @@ func _handle_explosion_on_clients(affected_peer_ids: Array[int]) -> void:
 
 		# Texto flotante
 		if potato_manager.floating_text_scene:
+			
 			var text = potato_manager.floating_text_scene.instantiate()
+			
 			text.global_position = player.global_position + Vector2(0, -40)
+			
 			add_child(text)
+			
+			text._create_text("PAPEADO")
 
 		player_manager.remove_player(peer_id)
 
@@ -196,7 +228,7 @@ func _on_all_rounds_completed(winner_peer_id: int) -> void:
 	])
 
 	potato_manager.stop_all_potatoes()
-
+	state_machine.on_game_over()
 	_announce_winner.rpc(winner_peer_id, score_manager.get_score(winner_peer_id))
 
 
@@ -229,6 +261,74 @@ func _announce_winner(winner_peer_id: int, final_score: int) -> void:
 	print("[GameManager] ¡El ganador es Jugador %d con %d puntos!" % [winner_peer_id, final_score])
 	game_ended.emit()
 
+
+func request_restart() -> void:
+	if not multiplayer.is_server():
+		_request_restart_rpc.rpc_id(1)
+	else:
+		_do_restart()
+ 
+ 
+@rpc("any_peer", "reliable")
+func _request_restart_rpc() -> void:
+	if not multiplayer.is_server():
+		return
+	_do_restart()
+ 
+ 
+func _do_restart() -> void:
+	print("[GameManager] Reiniciando partida...")
+
+	potato_manager.stop_all_potatoes()
+
+	round_manager.round_number = 0
+	round_manager.round_in_progress = false
+	round_manager.players_dead_this_round.clear()
+
+	_restart_on_clients.rpc()
+
+	await get_tree().process_frame
+
+	for peer_id in player_manager.get_all_peer_ids():
+		player_manager.remove_player(peer_id)
+
+	await get_tree().process_frame
+
+	for peer_id in multiplayer.get_peers():
+		player_manager.spawn_player(peer_id)
+
+	player_manager.spawn_player(1)
+
+	score_manager.initialize(player_manager.get_all_peer_ids())
+	
+	state_machine.on_game_started()
+	round_manager.start_round(player_manager)
+
+@rpc("authority", "reliable", "call_local")
+func _restart_on_clients() -> void:
+	print("[GameManager] Reinicio recibido en cliente")
+
+	potato_manager.stop_all_potatoes()
+
+	round_manager.round_number = 0
+	round_manager.round_in_progress = false
+	round_manager.players_dead_this_round.clear()
+
+	for peer_id in player_manager.get_all_peer_ids():
+		player_manager.remove_player(peer_id)
+
+	score_manager.initialize([])
+
+	state_machine.on_game_started()
+
+func _sync_players_to_all():
+	for target_peer in multiplayer.get_peers():
+		for existing_id in player_manager.get_all_peer_ids():
+			player_manager._spawn_player_on_clients.rpc_id(
+				target_peer,
+				existing_id,
+				player_manager.get_player_position(existing_id)
+			)
 
 '''
 Helper methods to get player instances, transfer the potato, and other game-related queries.

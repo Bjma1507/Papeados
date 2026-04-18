@@ -1,37 +1,106 @@
 [gd_scene format=3 uid="uid://dyb3e3py2r424"]
 
 [ext_resource type="Script" uid="uid://c2byutvgdwa32" path="res://multiplayer/lobby/lobby.gd" id="1_a73jb"]
+[ext_resource type="Texture2D" uid="uid://rd8a8b8bbtc8" path="res://multiplayer/lobby/sala de espera.png" id="2_8x43j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8x43j"]
+font_size = 30
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8x43j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4jh2v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q4530"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7t3hg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_86jsx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7mn80"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_haddn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_emgon"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gr8s0"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_8x43j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f31kc"]
 
 [node name="Lobby" type="Control" unique_id=681052309]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a73jb")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=835330305]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=153064896]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-alignment = 1
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_8x43j")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=709412953]
-layout_mode = 2
-text = "MULTIPLAYER PAPEADOS"
+[node name="CodigoSalaLabel" type="Label" parent="." unique_id=1926704115]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 49.0
+offset_right = 1074.0
+offset_bottom = 109.0
+text = " CÓDIGO DE SALA: #"
+label_settings = SubResource("LabelSettings_8x43j")
+vertical_alignment = 1
 
-[node name="IPInput" type="LineEdit" parent="VBoxContainer" unique_id=192280948]
-layout_mode = 2
-placeholder_text = "127.0.0.1"
+[node name="StatusLabel" type="Label" parent="." unique_id=77616482]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 281.0
+offset_right = 202.0
+offset_bottom = 315.0
 
-[node name="HostButton" type="Button" parent="VBoxContainer" unique_id=1666762276]
-layout_mode = 2
-text = "CREAR SERVIDOR"
+[node name="IniciarPartidaBtn" type="Button" parent="." unique_id=1666762276]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 551.0
+offset_right = 776.0
+offset_bottom = 610.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8x43j")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4jh2v")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_q4530")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7t3hg")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_86jsx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_7mn80")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_haddn")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_emgon")
 
-[node name="JoinButton" type="Button" parent="VBoxContainer" unique_id=777062108]
-layout_mode = 2
-text = "UNIRSE A SERVIDOR"
+[node name="SalirSalaBtn" type="Button" parent="." unique_id=777062108]
+layout_mode = 0
+offset_left = 824.0
+offset_top = 550.0
+offset_right = 1098.0
+offset_bottom = 609.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_gr8s0")
+theme_override_styles/pressed = SubResource("StyleBoxLine_8x43j")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_f31kc")
 
-[node name="StatusLabel" type="Label" parent="VBoxContainer" unique_id=679133286]
-layout_mode = 2
+[node name="ListaJugadores" type="VBoxContainer" parent="." unique_id=1231309202]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 0
+offset_left = 496.0
+offset_top = 122.0
+offset_right = 1106.0
+offset_bottom = 541.0
+
+[node name="IPInput" type="LineEdit" parent="." unique_id=675876792]
+layout_mode = 0
+offset_left = 840.0
+offset_top = 62.0
+offset_right = 1063.0
+offset_bottom = 101.0
+placeholder_text = "Escribe la IP para unirte"

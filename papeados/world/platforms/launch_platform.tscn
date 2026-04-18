@@ -1,15 +1,20 @@
 [gd_scene format=3 uid="uid://c1rju3yypxytd"]
 
 [ext_resource type="Script" uid="uid://bl3plv3oucpx" path="res://world/platforms/launch_platform.gd" id="1_w07f6"]
+[ext_resource type="Texture2D" uid="uid://cmvn5dpyc0ow2" path="res://assets/sprites/tile_0108.png" id="2_utekp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w07f6"]
-size = Vector2(10.5, 1)
+size = Vector2(14, 14)
 
 [node name="LaunchPlatform" type="Node2D" unique_id=410638877]
 script = ExtResource("1_w07f6")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=747514023]
 
+[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=998669694]
+texture = ExtResource("2_utekp")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=604072459]
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_w07f6")
 debug_color = Color(0.9987095, 0, 0.1468184, 0.41960785)

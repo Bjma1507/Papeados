@@ -15,7 +15,7 @@ const FRICTION := 600.0
 # CONFIGURACIÓN DE DASH
 # ========================================
 @export_group("Dash Settings")
-@export var dash_speed := 600.0
+@export var dash_speed := 1200.0
 @export var dash_duration := 0.2
 @export var dash_cooldown := 1.5
 
@@ -47,7 +47,9 @@ const FRICTION := 600.0
 # ========================================
 # AUDIO
 # ========================================
+@export_group("Audio Settings")
 @export var jump_audio : AudioStreamWAV
+@export var collision_sound : AudioStreamWAV
 
 # ========================================
 # VARIABLES DE GAMEPLAY
@@ -91,21 +93,17 @@ func _ready() -> void:
 	_setup_network()
 	collision_area.body_entered.connect(_on_area_2d_body_entered)
 	
-	# Inicializar posiciones para interpolación
 	target_position = global_position
 	target_velocity = velocity
 
 func _setup_network() -> void:
-	# Configurar autoridad del MultiplayerSynchronizer
 	if sync:
 		sync.set_multiplayer_authority(get_multiplayer_authority())
-	
-	# Configurar callbacks de red
+ 
 	if multiplayer.is_server():
 		print("Jugador %d inicializado en servidor" % player_id)
 	else:
 		print("Jugador %d inicializado en cliente" % player_id)
-
 # ========================================
 # PHYSICS PROCESS
 # ========================================
@@ -125,6 +123,10 @@ func _physics_process(delta: float) -> void:
 		# CLIENTE REMOTO: Interpolar hacia la posición recibida
 		_interpolate_position(delta)
 		_update_animation()
+
+func force_leave_floor():
+	floor_snap_length = 0.0
+
 
 # ========================================
 # ACTUALIZACIÓN DE RED (Solo cliente local)
@@ -162,12 +164,9 @@ func _send_position_update() -> void:
 	last_sent_position = global_position
 	last_sent_velocity = velocity
 
-# ========================================
-# RPC: RECIBIR POSICIÓN (Todos los clientes remotos)
-# ========================================
 @rpc("any_peer", "unreliable")
 func _receive_position_update(pos: Vector2, vel: Vector2, flip: bool, timestamp: float) -> void:
-	# Solo los clientes remotos procesan esto
+
 	if is_multiplayer_authority():
 		return
 	
@@ -263,6 +262,10 @@ func _notify_jump() -> void:
 	audio.stream = jump_audio
 	audio.play()
 
+func _play_collision_sound() -> void:
+	audio.stream = collision_sound
+	audio.play()
+
 # ========================================
 # DASH (Con sincronización RPC)
 # ========================================
@@ -319,15 +322,15 @@ func _update_animation() -> void:
 # KNOCKBACK
 # ========================================
 func apply_knockback(knockback_vector: Vector2) -> void:
-	velocity += knockback_vector
-	
-	# Sincronizar el knockback
+	_play_collision_sound()
 	if is_multiplayer_authority():
-		rpc("_sync_knockback", knockback_vector)
+		velocity += knockback_vector
+	else:
+		rpc_id(get_multiplayer_authority(), "_receive_knockback", knockback_vector)
 
 @rpc("any_peer", "reliable")
-func _sync_knockback(knockback_vector: Vector2) -> void:
-	if is_multiplayer_authority():
+func _receive_knockback(knockback_vector: Vector2) -> void:
+	if not is_multiplayer_authority():
 		return
 	velocity += knockback_vector
 
@@ -338,14 +341,16 @@ func set_can_transfer_potato(value: bool) -> void:
 	can_transfer_potato = value
 
 func _on_area_2d_body_entered(body: Node) -> void:
-	
 	if not is_multiplayer_authority():
 		return
+ 
 	if not (body is Player) or body == self:
 		return
+ 
 	var direction = (body.global_position - global_position).normalized()
-	body.apply_knockback(direction * 300.0)
-	
+
+	body.apply_knockback(direction * 600.0)
+ 
 	if multiplayer.is_server():
 		_ask_transfer(body.player_id)
 	else:

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dv2clpnvskpdu"]
+
+[ext_resource type="Texture2D" uid="uid://dcy5xrdlvyd1u" path="res://scenes/P1.png" id="1_ptves"]
+
+[node name="FilaJugador" type="HBoxContainer" unique_id=1380107463]
+offset_left = 1.0
+offset_top = 24.0
+offset_right = 316.0
+offset_bottom = 64.0
+
+[node name="AvatarTexture" type="TextureRect" parent="." unique_id=199963418]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+texture = ExtResource("1_ptves")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NombreLabel" type="Label" parent="." unique_id=2143412884]
+layout_mode = 2
+text = "Nombre de Prueba"
+horizontal_alignment = 1

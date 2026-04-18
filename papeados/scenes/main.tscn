@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dhcxfygh143yt"]
 
 [ext_resource type="Script" uid="uid://bhyjhhs7s1g2v" path="res://core/game_manager.gd" id="1_85g3d"]
+[ext_resource type="Script" uid="uid://bnu7eim07dvx8" path="res://core/game_state_machine.gd" id="2_trceg"]
 [ext_resource type="PackedScene" uid="uid://j41u1vbi1c4e" path="res://player/player.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://potato/explosive_potato.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cn4fvfkn0j8u1" path="res://ui/floating_text/floating-text.tscn" id="4_85g3d"]
@@ -10,9 +11,32 @@
 [ext_resource type="Script" uid="uid://dmssb76jls2xa" path="res://gameplay/round_manager.gd" id="7_choun"]
 [ext_resource type="Script" uid="uid://dfok48u3r818n" path="res://gameplay/score_manager.gd" id="8_ya4ey"]
 [ext_resource type="Script" uid="uid://dx4cddxmgcad8" path="res://gameplay/potato_manager.gd" id="9_eb6dy"]
+[ext_resource type="Script" uid="uid://bi2n7cq6y81nh" path="res://ui/ui_manager.gd" id="9_trceg"]
+[ext_resource type="Texture2D" uid="uid://bto1ws2nrfwml" path="res://assets/background/back.png" id="13_trceg"]
+[ext_resource type="PackedScene" uid="uid://c1rju3yypxytd" path="res://world/platforms/launch_platform.tscn" id="14_a8y0u"]
 
 [node name="GameManager" type="Node" unique_id=176361699]
 script = ExtResource("1_85g3d")
+
+[node name="StateMachine" type="Node" parent="." unique_id=2064215888]
+script = ExtResource("2_trceg")
+
+[node name="Arena" type="Node2D" parent="." unique_id=2140676501]
+script = ExtResource("5_choun")
+arena_height = 500
+
+[node name="LaunchPlatform" parent="Arena" unique_id=410638877 instance=ExtResource("14_a8y0u")]
+position = Vector2(-363, 222.00002)
+rotation = 0.80285144
+scale = Vector2(2, 2)
+
+[node name="LaunchPlatform2" parent="Arena" unique_id=1546859248 instance=ExtResource("14_a8y0u")]
+position = Vector2(366, 221.99998)
+rotation = -0.80285144
+scale = Vector2(2, 2)
+
+[node name="Platforms" type="Node2D" parent="." unique_id=465749731]
+script = ExtResource("6_ya4ey")
 
 [node name="PlayerManager" type="Node" parent="." unique_id=839157539]
 script = ExtResource("6_85g3d")
@@ -31,9 +55,102 @@ floating_text_scene = ExtResource("4_85g3d")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1710669209]
 
-[node name="World" type="Node2D" parent="." unique_id=2140676501]
-script = ExtResource("5_choun")
-arena_height = 500
+[node name="FondoEscenario" type="CanvasLayer" parent="." unique_id=983783477]
+layer = -1
 
-[node name="Platforms" type="Node2D" parent="World" unique_id=465749731]
-script = ExtResource("6_ya4ey")
+[node name="TextureRect" type="TextureRect" parent="FondoEscenario" unique_id=1190955086]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_trceg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1827237706]
+
+[node name="UIManager" type="Node" parent="UI" unique_id=883712495 node_paths=PackedStringArray("round_label", "players_label", "game_over_panel", "winner_label", "play_again_button")]
+script = ExtResource("9_trceg")
+round_label = NodePath("../HUD/Control/Rondas/HBoxContainer/Label")
+players_label = NodePath("../HUD/Control/Puntajes/HBoxContainer/Label")
+game_over_panel = NodePath("../GameOverPanel")
+winner_label = NodePath("../GameOverPanel/BoxContainer/Label")
+play_again_button = NodePath("../GameOverPanel/BoxContainer/Button")
+
+[node name="HUD" type="CanvasLayer" parent="UI" unique_id=313668401]
+
+[node name="Control" type="Control" parent="UI/HUD" unique_id=1445574471]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Rondas" type="MarginContainer" parent="UI/HUD/Control" unique_id=466201899]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Control/Rondas" unique_id=234982873]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HUD/Control/Rondas/HBoxContainer" unique_id=1882536387]
+layout_mode = 2
+text = "Ronda: 1 de 3"
+
+[node name="Puntajes" type="MarginContainer" parent="UI/HUD/Control" unique_id=1834680435]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.21604939
+anchor_right = 0.06857639
+anchor_bottom = 0.69753087
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Control/Puntajes" unique_id=1421084631]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HUD/Control/Puntajes/HBoxContainer" unique_id=114798847]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "InozaAki
+Bjma21
+Jonatan04"
+
+[node name="GameOverPanel" type="Panel" parent="UI" unique_id=1990851170]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="UI/GameOverPanel" unique_id=1869056066]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+vertical = true
+
+[node name="Label" type="Label" parent="UI/GameOverPanel/BoxContainer" unique_id=606044430]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/GameOverPanel/BoxContainer" unique_id=897818768]
+layout_mode = 2
+text = "Jugar de nuevo"

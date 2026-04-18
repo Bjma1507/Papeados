@@ -140,7 +140,13 @@ func _transfer_potato_on_clients(from_peer_id: int, to_peer_id: int) -> void:
 		if is_instance_valid(potato) and potato.attached_player == from_player:
 			potato.attach_to_player(to_player)
 			break
+	
+	var text = floating_text_scene.instantiate()
 
+	text.global_position = to_player.global_position + Vector2(0, -40)
+	
+	add_child(text)	
+	text._create_text("TIENES LA PAPA!")
 
 '''
 Called when a potato explodes. Determines affected players and emits signal for the GameManager.

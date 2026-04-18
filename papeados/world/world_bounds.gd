@@ -12,13 +12,13 @@ func create_walls():
 	# Floor
 	create_wall(
 		Vector2(0, arena_height / 2),
-		Vector2(arena_width, boundary_thickness)
+		Vector2(arena_width + boundary_thickness, boundary_thickness)
 	)
 
 	# Top
 	create_wall(
 		Vector2(0, -arena_height / 2),
-		Vector2(arena_width, boundary_thickness)
+		Vector2(arena_width + boundary_thickness, boundary_thickness)
 	)
 
 	# Left
@@ -33,7 +33,6 @@ func create_walls():
 		Vector2(boundary_thickness, arena_height)
 	)
 
-
 func create_wall(pos: Vector2, size: Vector2) -> void:
 	var wall := StaticBody2D.new()
 	var collision_shape := CollisionShape2D.new()
@@ -43,3 +42,16 @@ func create_wall(pos: Vector2, size: Vector2) -> void:
 	wall.position = pos
 	wall.add_child(collision_shape)
 	add_child(wall)
+
+	var visual = Panel.new()
+	var sb = StyleBoxFlat.new()
+	sb.bg_color = Color(0.15, 0.15, 0.15, 1.0) 
+	sb.border_color = Color(1.0, 0.0, 1.0, 1.0) 
+	sb.border_width_left = 4
+	sb.border_width_top = 4
+	sb.border_width_right = 4
+	sb.border_width_bottom = 4
+	visual.add_theme_stylebox_override("panel", sb)
+	visual.size = size 
+	visual.position = -size / 2
+	wall.add_child(visual)

@@ -1,8 +1,3 @@
-res://player/modules/player_data.gd
 res://scenes/main.tscn
-res://gameplay/player_manager.gd
-res://gameplay/potato_manager.gd
-res://potato/explosive_potato.gd
-res://player/player.gd
+res://ui/ui_manager.gd
 res://core/game_manager.gd
-res://gameplay/round_manager.gd

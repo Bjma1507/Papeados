@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://br4dwbrs8eokr" path="res://player/player.gd" id="1_7dd06"]
 [ext_resource type="Texture2D" uid="uid://coxs3ira0qk3w" path="res://assets/sprites/Old hero.png" id="2_38rej"]
 [ext_resource type="AudioStream" uid="uid://ij2u5mblkjw8" path="res://assets/sounds/SFX_Jump.wav" id="3_38rej"]
-
+[ext_resource type="AudioStream" uid="uid://bsu1bhmt6d2xq" path="res://assets/sounds/nutfall.wav" id="3_yw30f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bkydc"]
 atlas = ExtResource("2_38rej")
@@ -130,7 +130,9 @@ size = Vector2(11, 16)
 [node name="Player" type="CharacterBody2D" unique_id=832690648]
 scale = Vector2(2, 2)
 script = ExtResource("1_7dd06")
+dash_duration = 0.3
 jump_audio = ExtResource("3_38rej")
+collision_sound = ExtResource("3_yw30f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=960246638]
 sprite_frames = SubResource("SpriteFrames_2t2sq")

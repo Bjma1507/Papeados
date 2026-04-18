@@ -38,9 +38,12 @@ func start_round(player_manager: PlayerManager) -> void:
 		push_warning("[RoundManager] Intento de iniciar ronda mientras una ya está en progreso.")
 		return
  
+	var arena = _get_arena()
+	if arena:
+		arena.regenerate_for_round()
+ 
 	for peer_id in players_dead_this_round.duplicate():
 		player_manager.respawn_player(peer_id)
- 
 	players_dead_this_round.clear()
  
 	await get_tree().create_timer(respawn_delay).timeout
@@ -53,9 +56,7 @@ func start_round(player_manager: PlayerManager) -> void:
  
 	print("[RoundManager] === Comenzando Ronda %d ===" % round_number)
 	_announce_round_start.rpc(round_number, rounds_to_win)
- 
 	round_ready_to_spawn.emit()
-
 
 @rpc("authority", "reliable", "call_local")
 func _announce_round_start(number: int, to_win: int) -> void:
@@ -106,14 +107,12 @@ func _finish_round(survivor_peer_id: int, player_manager: PlayerManager, score_m
 	print("[RoundManager] === FIN DE RONDA %d ===" % round_number)
 	_announce_round_end.rpc(survivor_peer_id)
  
-	if survivor_peer_id != -1:
-		score_manager.add_score(survivor_peer_id)
-		if score_manager.has_won(survivor_peer_id, rounds_to_win):
-			await get_tree().create_timer(round_end_delay).timeout
-			all_rounds_completed.emit(survivor_peer_id)
-			return
- 
 	await get_tree().create_timer(round_end_delay).timeout
+ 
+	if survivor_peer_id != -1 and score_manager.has_won(survivor_peer_id, rounds_to_win):
+		all_rounds_completed.emit(survivor_peer_id)
+		return
+ 
 	start_round(player_manager)
 
 
@@ -141,3 +140,6 @@ func register_death(peer_id: int, player_manager: PlayerManager) -> void:
 	player_manager.mark_player_dead(peer_id)
 	if peer_id not in players_dead_this_round:
 		players_dead_this_round.append(peer_id)
+
+func _get_arena():
+	return get_parent().get_node_or_null("Platforms")

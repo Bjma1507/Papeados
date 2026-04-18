@@ -5,9 +5,8 @@ extends Node2D
 
 @onready var label : Label = $Label
 
-func _ready() -> void:
-	label.text = "PAPEADO"
-	
+func _create_text(text: String) -> void:
+	label.text = text	
 	var tween := create_tween()
 	tween.tween_property(self, "position:y", position.y - 40, lifetime)
 	tween.parallel().tween_property(label, "modulate:a", 0.0, lifetime)

@@ -79,19 +79,21 @@ Emits:
 func _create_player(peer_id: int, pos: Vector2) -> void:
 	if players.has(peer_id):
 		return
-
+ 
 	var player: Player = player_scene.instantiate()
-	player.global_position = pos
+ 
 	player.player_id = peer_id
 	player.name = "Player_%d" % peer_id
 	player.set_multiplayer_authority(peer_id)
-
+ 
 	add_child(player)
-
+ 
+	player.global_position = pos
+ 
 	var data := PlayerData.new(peer_id, player)
 	players[peer_id] = data
 	_player_to_id[player] = peer_id
-
+ 
 	print("[PlayerManager] Jugador %d creado en %v" % [peer_id, pos])
 	player_spawned.emit(player)
 

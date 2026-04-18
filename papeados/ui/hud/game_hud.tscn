@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://1cy5lki5vkj8"]
 
+[ext_resource type="Script" uid="uid://bi2n7cq6y81nh" path="res://ui/ui_manager.gd" id="1_dsckt"]
+
 [node name="Control" type="Control" unique_id=1282934399]
 clip_contents = true
 layout_mode = 3
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -60,3 +63,8 @@ size_flags_vertical = 1
 text = "InozaAki
 Bjma21
 Jonatan04"
+
+[node name="UIManager" type="Node" parent="." unique_id=188180757 node_paths=PackedStringArray("round_label", "players_label")]
+script = ExtResource("1_dsckt")
+round_label = NodePath("../CanvasLayer/Control/MarginContainer2/HBoxContainer/Label")
+players_label = NodePath("../CanvasLayer/Control/MarginContainer/HBoxContainer/Label")
