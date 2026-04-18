@@ -1,8 +1,0 @@
-res://multiplayer/lobby/lobby.tscn
-res://ui/menus/main_menu.tscn
-res://multiplayer/lobby/lobby.gd
-res://ui/menus/main_menu.gd
-res://scenes/main.tscn
-res://multiplayer/lobby/fila_jugador.tscn
-res://world/platform_generator.gd
-res://world/world_bounds.gd

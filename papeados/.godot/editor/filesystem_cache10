@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1775792745
+::res://::1776532762
 default_bus_layout.tres::AudioBusLayout::7364731840342538623::1775609818::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::1054917381745504061::1775609818::1775611724::1::::<><><>0<>0<>118e1af9c248a88e6797f53580b5ba59<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://Assets/::1775609818
@@ -27,11 +27,11 @@ score_manager.gd::GDScript::7539768281240089455::1775609818::0::1::::ScoreManage
 ::res://gameplay/gravity_switch/::1775609818
 gravity_switch.tscn::PackedScene::2139824112262536394::1775609818::0::1::::<><><>0<>0<><>::uid://mt366o501vyn::::res://world/gravity_switch.gd
 ::res://multiplayer/::1775609818
-::res://multiplayer/lobby/::1775792781
-fila_jugador.tscn::PackedScene::8689107853467401990::1775790936::0::1::::<><><>0<>0<><>::uid://dcy5xrdlvyd1u::::res://scenes/P1.png
-ip.png::CompressedTexture2D::3952392627661059955::1775618732::1775618733::1::::<><><>0<>0<>93cdbdff13dc3576ee27f2cbe603a24a<>res://.godot/imported/ip.png-9038984c3c1370df2b95f8257ec54ba2.ctex::
-lobby.gd::GDScript::6671498477733662003::1775792781::0::1::::<>Control<><>0<>0<><>::
-lobby.tscn::PackedScene::8847567390072324895::1775792342::0::1::::<><><>0<>0<><>::uid://c2byutvgdwa32::::res://multiplayer/lobby/lobby.gd<>uid://rd8a8b8bbtc8::::res://multiplayer/lobby/sala de espera.png
+::res://multiplayer/lobby/::1775876288
+fila_jugador.tscn::PackedScene::8689107853467401990::1775876288::0::1::::<><><>0<>0<><>::uid://dcy5xrdlvyd1u::::res://scenes/P1.png
+ip.png::CompressedTexture2D::3952392627661059955::1775618732::1776532763::1::::<><><>0<>0<>93cdbdff13dc3576ee27f2cbe603a24a<>res://.godot/imported/ip.png-9038984c3c1370df2b95f8257ec54ba2.ctex::
+lobby.gd::GDScript::6671498477733662003::1775874809::0::1::::<>Control<><>0<>0<><>::
+lobby.tscn::PackedScene::8847567390072324895::1775875585::0::1::::<><><>0<>0<><>::uid://c2byutvgdwa32::::res://multiplayer/lobby/lobby.gd<>uid://rd8a8b8bbtc8::::res://multiplayer/lobby/sala de espera.png
 sala de espera.png::CompressedTexture2D::1201408872186149033::1775700618::1775700619::1::::<><><>0<>0<>0e99c0fe2650f4e669514d81a7520b44<>res://.godot/imported/sala de espera.png-ab51077cb20a1a14b1e1f47f82052960.ctex::
 ::res://player/::1775609818
 player.gd::GDScript::3639719498498727885::1775609818::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
@@ -39,10 +39,10 @@ player.tscn::PackedScene::693182303405198742::1775609818::0::1::::<><><>0<>0<><>
 ::res://potato/::1775609818
 explosive_potato.gd::GDScript::5905514515597694696::1775609818::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
 explosive_potato.tscn::PackedScene::6958462937428621362::1775609818::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://potato/explosive_potato.gd<>uid://5e2mk42b1fob::::res://assets/sprites/papa-bomba.png<>uid://bkibvaoo17blg::::res://assets/sounds/FX061.mp3<>uid://dtkxnq8c88lr5::::res://assets/sounds/explosion.wav<>uid://dtgnovwxx87io::::res://assets/sounds/countdown-a.ogg<>uid://b2psa0wiuhlun::::res://assets/sounds/countdown-b.ogg
-::res://scenes/::1775871785
+::res://scenes/::1775874580
 borde.png::CompressedTexture2D::6060469072566226284::1775871785::1775871785::1::::<><><>0<>0<>2535468138dbd74a7bf8f6b8e57be403<>res://.godot/imported/borde.png-0d7ac0e52d0e972798af29e83056dc10.ctex::
 fondo.png::CompressedTexture2D::7432460837764830474::1775867271::1775867271::1::::<><><>0<>0<>1056e3b29d2da8a3a2444a6a95bd19cd<>res://.godot/imported/fondo.png-fde226daa00939c587d33a4c41b2a481.ctex::
-main.tscn::PackedScene::7656119402039998235::1775871674::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://core/game_manager.gd<>uid://j41u1vbi1c4e::::res://player/player.tscn<>uid://c6ey4rllf7h2q::::res://potato/explosive_potato.tscn<>uid://cn4fvfkn0j8u1::::res://ui/floating_text/floating-text.tscn<>uid://vukn3ut7mbeo::::res://world/world_bounds.gd<>uid://22qt6jy1ovy2::::res://gameplay/player_manager.gd<>uid://b36ehksen7j5y::::res://world/platform_generator.gd<>uid://dmssb76jls2xa::::res://gameplay/round_manager.gd<>uid://dfok48u3r818n::::res://gameplay/score_manager.gd<>uid://dx4cddxmgcad8::::res://gameplay/potato_manager.gd<>uid://dd5lsq8m6dafy::::res://scenes/fondo.png
+main.tscn::PackedScene::7656119402039998235::1775874580::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://core/game_manager.gd<>uid://j41u1vbi1c4e::::res://player/player.tscn<>uid://c6ey4rllf7h2q::::res://potato/explosive_potato.tscn<>uid://cn4fvfkn0j8u1::::res://ui/floating_text/floating-text.tscn<>uid://vukn3ut7mbeo::::res://world/world_bounds.gd<>uid://22qt6jy1ovy2::::res://gameplay/player_manager.gd<>uid://b36ehksen7j5y::::res://world/platform_generator.gd<>uid://dmssb76jls2xa::::res://gameplay/round_manager.gd<>uid://dfok48u3r818n::::res://gameplay/score_manager.gd<>uid://dx4cddxmgcad8::::res://gameplay/potato_manager.gd<>uid://dd5lsq8m6dafy::::res://scenes/fondo.png
 P1.png::CompressedTexture2D::7351048285555775172::1775789519::1775789520::1::::<><><>0<>0<>f5ce3ed817feca6dcf8b830da6f14fec<>res://.godot/imported/P1.png-041f3239194c5497ae6cdfedb2c625bb.ctex::
 P2.png::CompressedTexture2D::9171637965456292162::1775790552::1775792746::1::::<><><>0<>0<>b7306d1cd7e6276c0080109e7eebedd4<>res://.godot/imported/P2.png-a19283aed999ba6485bece52b3c58ea2.ctex::
 P3.png::CompressedTexture2D::3055137453236013028::1775790552::1775790553::1::::<><><>0<>0<>dec16fd7a34c1cee626343349570053c<>res://.godot/imported/P3.png-324a55bca38151da8f796da52ad4efd4.ctex::
@@ -64,11 +64,11 @@ main_menu.gd::GDScript::6366546954470705592::1775786768::0::1::::<>Node2D<><>0<>
 main_menu.tscn::PackedScene::427541850981442688::1775784492::0::1::::<><><>0<>0<><>::uid://5t1ed63y5ngq::::res://ui/1.png<>uid://cwyadlqydlyge::::res://ui/menus/main_menu.gd
 MenuMultiplayer.tscn::PackedScene::4234750523175332157::1775609818::0::1::::<><><>0<>0<><>::uid://cbejno1pfgsvu::::res://ui/menus/menu_multiplayer.gd
 menu_multiplayer.gd::GDScript::4851858166476422662::1775609818::0::1::::<>Control<><>0<>0<><>::
-::res://world/::1775871674
+::res://world/::1775874580
 gravity_manager.gd::GDScript::1146802199111682623::1775609818::0::1::::<>Node<><>0<>0<><>::
 gravity_switch.gd::GDScript::883246387640671537::1775609818::0::1::::<>Node2D<><>0<>0<><>::
-platform_generator.gd::GDScript::4415959937702625160::1775871674::0::1::::<>Node2D<><>0<>0<><>::
-world_bounds.gd::GDScript::1515885159184704986::1775609818::0::1::::<>Node2D<><>0<>0<><>::
+platform_generator.gd::GDScript::4415959937702625160::1775873579::0::1::::<>Node2D<><>0<>0<><>::
+world_bounds.gd::GDScript::1515885159184704986::1775874580::0::1::::<>Node2D<><>0<>0<><>::
 ::res://world/platforms/::1775609818
 launch_platform.gd::GDScript::94624473128158173::1775609818::0::1::::LaunchPlatform<>Node2D<><>0<>0<><>::
 launch_platform.tscn::PackedScene::6633429401447594001::1775609818::0::1::::<><><>0<>0<><>::uid://bl3plv3oucpx::::res://world/platforms/launch_platform.gd
