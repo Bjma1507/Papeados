@@ -12,8 +12,33 @@
 [ext_resource type="Script" uid="uid://dfok48u3r818n" path="res://gameplay/score_manager.gd" id="8_ya4ey"]
 [ext_resource type="Script" uid="uid://dx4cddxmgcad8" path="res://gameplay/potato_manager.gd" id="9_eb6dy"]
 [ext_resource type="Script" uid="uid://bi2n7cq6y81nh" path="res://ui/ui_manager.gd" id="9_trceg"]
-[ext_resource type="Texture2D" uid="uid://bto1ws2nrfwml" path="res://assets/background/back.png" id="13_trceg"]
+[ext_resource type="Texture2D" uid="uid://bto1ws2nrfwml" path="res://Assets/background/back.png" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://c1rju3yypxytd" path="res://world/platforms/launch_platform.tscn" id="14_a8y0u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.8980392, 1, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_a8y0u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkv2x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jbj1t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_muem4"]
+
+[sub_resource type="Environment" id="Environment_a8y0u"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 1.5
 
 [node name="GameManager" type="Node" unique_id=176361699]
 script = ExtResource("1_85g3d")
@@ -26,7 +51,7 @@ script = ExtResource("5_choun")
 arena_height = 500
 
 [node name="LaunchPlatform" parent="Arena" unique_id=410638877 instance=ExtResource("14_a8y0u")]
-position = Vector2(-363, 222.00002)
+position = Vector2(-359, 222.00002)
 rotation = 0.80285144
 scale = Vector2(2, 2)
 
@@ -72,24 +97,22 @@ stretch_mode = 6
 
 [node name="UIManager" type="Node" parent="UI" unique_id=883712495 node_paths=PackedStringArray("round_label", "players_label", "game_over_panel", "winner_label", "play_again_button")]
 script = ExtResource("9_trceg")
-round_label = NodePath("../HUD/Control/Rondas/HBoxContainer/Label")
-players_label = NodePath("../HUD/Control/Puntajes/HBoxContainer/Label")
+round_label = NodePath("../HUD/MarginContainer/Rondas/HBoxContainer/Label")
+players_label = NodePath("../HUD/MarginContainer/Puntajes/HBoxContainer/Label")
 game_over_panel = NodePath("../GameOverPanel")
 winner_label = NodePath("../GameOverPanel/BoxContainer/Label")
 play_again_button = NodePath("../GameOverPanel/BoxContainer/Button")
 
 [node name="HUD" type="CanvasLayer" parent="UI" unique_id=313668401]
 
-[node name="Control" type="Control" parent="UI/HUD" unique_id=1445574471]
+[node name="MarginContainer" type="Control" parent="UI/HUD" unique_id=1445574471]
 layout_direction = 1
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
 
-[node name="Rondas" type="MarginContainer" parent="UI/HUD/Control" unique_id=466201899]
+[node name="Rondas" type="PanelContainer" parent="UI/HUD/MarginContainer" unique_id=350632208]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -97,27 +120,31 @@ anchor_right = 1.0
 offset_left = -104.0
 offset_bottom = 40.0
 grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Control/Rondas" unique_id=234982873]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/MarginContainer/Rondas" unique_id=234982873]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/HUD/Control/Rondas/HBoxContainer" unique_id=1882536387]
+[node name="Label" type="Label" parent="UI/HUD/MarginContainer/Rondas/HBoxContainer" unique_id=1882536387]
 layout_mode = 2
 text = "Ronda: 1 de 3"
 
-[node name="Puntajes" type="MarginContainer" parent="UI/HUD/Control" unique_id=1834680435]
+[node name="Puntajes" type="PanelContainer" parent="UI/HUD/MarginContainer" unique_id=262293089]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.21604939
 anchor_right = 0.06857639
 anchor_bottom = 0.69753087
+offset_left = 10.0
+offset_right = 42.743057
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Control/Puntajes" unique_id=1421084631]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/MarginContainer/Puntajes" unique_id=1421084631]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/HUD/Control/Puntajes/HBoxContainer" unique_id=114798847]
+[node name="Label" type="Label" parent="UI/HUD/MarginContainer/Puntajes/HBoxContainer" unique_id=114798847]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -129,6 +156,8 @@ Jonatan04"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -154,3 +183,19 @@ layout_mode = 2
 [node name="Button" type="Button" parent="UI/GameOverPanel/BoxContainer" unique_id=897818768]
 layout_mode = 2
 text = "Jugar de nuevo"
+
+[node name="BtnContinuar" type="Button" parent="." unique_id=438970265]
+offset_left = 892.0
+offset_top = 551.0
+offset_right = 1101.0
+offset_bottom = 600.0
+theme_override_fonts/font = SubResource("SystemFont_a8y0u")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jkv2x")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jbj1t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_muem4")
+text = "CONTINUAR"
+flat = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=127369436]
+environment = SubResource("Environment_a8y0u")

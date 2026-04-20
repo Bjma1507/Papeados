@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://x3qp314u3lvo"]
+
+[ext_resource type="Script" uid="uid://ckkgibd4e033q" path="res://scenes/pantalla_ganador.gd" id="1_2xr1c"]
+[ext_resource type="Texture2D" uid="uid://bvxhgwxbwp6fr" path="res://scenes/ganador.png" id="1_8vtem"]
+[ext_resource type="Texture2D" uid="uid://dcy5xrdlvyd1u" path="res://scenes/P1.png" id="2_6830y"]
+
+[sub_resource type="SystemFont" id="SystemFont_2xr1c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fj3jq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i0kot"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ih6ts"]
+
+[node name="PantallaGanador" type="Control" unique_id=944657155]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2xr1c")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=232773741]
+layout_mode = 1
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_8vtem")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="AvatarTexture" type="TextureRect" parent="." unique_id=1624379258]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 111.0
+offset_right = 484.0
+offset_bottom = 561.0
+texture = ExtResource("2_6830y")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NombreLabel" type="Label" parent="." unique_id=672108240]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 513.0
+offset_right = 582.0
+offset_bottom = 572.0
+theme_override_font_sizes/font_size = 32
+text = "Jugador 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnContinuar" type="Button" parent="." unique_id=695085729]
+layout_mode = 0
+offset_left = 892.0
+offset_top = 551.0
+offset_right = 1101.0
+offset_bottom = 600.0
+theme_override_fonts/font = SubResource("SystemFont_2xr1c")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fj3jq")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_i0kot")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ih6ts")
+text = "CONTINUAR"
+flat = true

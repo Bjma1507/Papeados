@@ -145,7 +145,7 @@ This is called by the server after a player is removed from the data structures.
 Args:
 	peer_id (int): The network peer ID of the player to remove.
 '''
-@rpc("authority", "reliable", "call_local")
+@rpc("any_peer", "reliable", "call_local")
 func _remove_player_on_clients(peer_id: int) -> void:
 	if not players.has(peer_id):
 		return

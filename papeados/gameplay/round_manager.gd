@@ -110,7 +110,7 @@ func _finish_round(survivor_peer_id: int, player_manager: PlayerManager, score_m
 	await get_tree().create_timer(round_end_delay).timeout
  
 	if survivor_peer_id != -1 and score_manager.has_won(survivor_peer_id, rounds_to_win):
-		all_rounds_completed.emit(survivor_peer_id)
+		_trigger_game_over_scenes.rpc(survivor_peer_id)
 		return
  
 	start_round(player_manager)
@@ -142,4 +142,13 @@ func register_death(peer_id: int, player_manager: PlayerManager) -> void:
 		players_dead_this_round.append(peer_id)
 
 func _get_arena():
-	return get_parent().get_node_or_null("Platforms")
+	return get_node_or_null("../Arena/Platforms")
+	
+@rpc("authority", "reliable", "call_local")
+func _trigger_game_over_scenes(winner_id: int) -> void:
+	var mi_id = multiplayer.get_unique_id()
+	
+	if mi_id == winner_id:
+		get_tree().change_scene_to_file("res://scenes/pantalla_ganador.tscn")
+	else:
+		get_tree().change_scene_to_file("res://scenes/pantalla_perdedor.tscn")

@@ -22,7 +22,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 NetworkManager="*uid://byew01sooqudx"
-LoadingScreenScript="*uid://cxte3nrqsclk3"
 
 [display]
 

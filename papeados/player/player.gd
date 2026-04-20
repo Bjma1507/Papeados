@@ -100,14 +100,19 @@ func _setup_network() -> void:
 	if sync:
 		sync.set_multiplayer_authority(get_multiplayer_authority())
  
-	if multiplayer.is_server():
+	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		print("Jugador %d inicializado en servidor" % player_id)
 	else:
 		print("Jugador %d inicializado en cliente" % player_id)
+		
 # ========================================
 # PHYSICS PROCESS
 # ========================================
 func _physics_process(delta: float) -> void:
+	# SEGURO ANTI-CRASH: Evita procesar si la red se desconectó (ej: al cambiar de escena)
+	if not multiplayer.has_multiplayer_peer(): 
+		return
+
 	if is_multiplayer_authority():
 		# CLIENTE LOCAL: Procesar inputs y físicas
 		_apply_gravity(delta)
@@ -151,6 +156,7 @@ func _should_send_update() -> bool:
 	return pos_changed or vel_changed
 
 func _send_position_update() -> void:
+	if not multiplayer.has_multiplayer_peer(): return
 	# Enviar posición actual a todos los clientes
 	var current_time = Time.get_ticks_msec() / 1000.0
 	
@@ -279,14 +285,16 @@ func _start_dash() -> void:
 	is_dashing = true
 	can_dash = false
 	
-	# Notificar a todos que iniciamos dash
-	rpc("_notify_dash_start")
+	if multiplayer.has_multiplayer_peer():
+		# Notificar a todos que iniciamos dash
+		rpc("_notify_dash_start")
 	
 	await get_tree().create_timer(dash_duration).timeout
 	is_dashing = false
 	
-	# Notificar fin de dash
-	rpc("_notify_dash_end")
+	if multiplayer.has_multiplayer_peer():
+		# Notificar fin de dash
+		rpc("_notify_dash_end")
 	
 	await get_tree().create_timer(dash_cooldown).timeout
 	can_dash = true
@@ -303,6 +311,10 @@ func _notify_dash_end() -> void:
 # ANIMACIONES
 # ========================================
 func _update_animation() -> void:
+	# SEGURO ANTI-CRASH:
+	if not multiplayer.has_multiplayer_peer():
+		return
+
 	var input_x := get_input_vector().x if is_multiplayer_authority() else target_velocity.x
 	
 	if input_x != 0 and is_multiplayer_authority():
@@ -325,7 +337,7 @@ func apply_knockback(knockback_vector: Vector2) -> void:
 	_play_collision_sound()
 	if is_multiplayer_authority():
 		velocity += knockback_vector
-	else:
+	elif multiplayer.has_multiplayer_peer():
 		rpc_id(get_multiplayer_authority(), "_receive_knockback", knockback_vector)
 
 @rpc("any_peer", "reliable")
@@ -341,7 +353,7 @@ func set_can_transfer_potato(value: bool) -> void:
 	can_transfer_potato = value
 
 func _on_area_2d_body_entered(body: Node) -> void:
-	if not is_multiplayer_authority():
+	if not multiplayer.has_multiplayer_peer() or not is_multiplayer_authority():
 		return
  
 	if not (body is Player) or body == self:

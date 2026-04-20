@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bsu1bhmt6d2xq"
-path="res://.godot/imported/nutfall.wav-498206bb518978cccafc27d40de5a51a.sample"
+path="res://.godot/imported/nutfall.wav-cb4a940549727096c569cde1dda2f14b.sample"
 
 [deps]
 
-source_file="res://assets/sounds/nutfall.wav"
-dest_files=["res://.godot/imported/nutfall.wav-498206bb518978cccafc27d40de5a51a.sample"]
+source_file="res://Assets/Sounds/nutfall.wav"
+dest_files=["res://.godot/imported/nutfall.wav-cb4a940549727096c569cde1dda2f14b.sample"]
 
 [params]
 

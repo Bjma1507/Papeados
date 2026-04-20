@@ -6,6 +6,20 @@ const MAX_PLAYERS = 4
 
 var peer = ENetMultiplayerPeer.new()
 
+# ==========================================
+# VARIABLES GLOBALES (El Mensajero)
+# ==========================================
+var jugadores_activos: Dictionary = {} 
+var avatares_globales = [
+	preload("res://scenes/P1.png"),
+	preload("res://scenes/P2.png"),
+	preload("res://scenes/P3.png"),
+	preload("res://scenes/P4.png"),
+	preload("res://scenes/P5.png"),
+	preload("res://scenes/P6.png")
+]
+# ==========================================
+
 signal jugador_conectado(peer_id)
 signal jugador_desconectado(peer_id)
 signal servidor_creado
@@ -55,6 +69,11 @@ func _on_peer_connected(id):
 
 func _on_peer_disconnected(id):
 	print("Jugador desconectado: ", id)
+	
+	# Limpiamos los datos del jugador si se desconecta
+	if jugadores_activos.has(id):
+		jugadores_activos.erase(id)
+		
 	jugador_desconectado.emit(id)
 
 func _on_connected_to_server():

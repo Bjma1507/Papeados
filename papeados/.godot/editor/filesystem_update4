@@ -1,3 +1,14 @@
+res://multiplayer/lobby/lobby.tscn
+res://multiplayer/lobby/lobby.gd
 res://scenes/main.tscn
-res://ui/ui_manager.gd
+res://gameplay/round_manager.gd
+res://player/player.gd
+res://scenes/pantalla_ganador.tscn
+res://scenes/pantalla_ganador.gd
+res://scenes/pantalla_perdedor.tscn
+res://scenes/pantalla_perdedor.gd
+res://multiplayer/lobby/fila_jugador.tscn
+res://core/network_manager.gd
+res://gameplay/player_manager.gd
 res://core/game_manager.gd
+res://gameplay/potato_manager.gd
